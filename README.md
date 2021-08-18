@@ -19,3 +19,5 @@ Originalmente las etiquetas de las imágenes de los componentes GUI destinadas a
 Ejemplo: ._42-android.widget.TextView.png
 
 Siendo la etiqueta la última palabra entre el penúltimo punto y el último punto. De esta manera lo interpretará el sistema para el entrenamiento de CNN.
+
+La columna que indique los casos debe de llamarse "Case", la que indique la actividad "Activity" y la que indique la variante "Variant". Con el objetivo de que se lleve a cabo un correcto preprocesamiento de los logs antes de entrenar el modelo de decisión.
