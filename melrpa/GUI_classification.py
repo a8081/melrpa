@@ -1,7 +1,7 @@
 #!C:/Users/Antonio/Documents/TFM/melrpa/melrpa/env/Scripts/python.exe
 
 # Comando para hacer uso del script:
-# ./GUI_classification.py media/models/model.json media/models/model.h5 media/GUIcomponents/ ../media/LogExample.csv
+# ./GUI_classification.py media/models/model.json media/models/model.h5 media/GUIcomponents/ media/LogExample.csv
 
 # Importaciones
 import sys

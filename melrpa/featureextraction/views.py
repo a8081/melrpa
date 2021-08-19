@@ -42,7 +42,7 @@ Esta función tendrá como input una lista de imagénes, y como output, una list
 En cada una de estas listas, estarán las coordenadas de las esquinas que conforman cada uno de los cuadros de texto detectados.
 """
 
-def get_ocr_image(param_img_root, images_input):
+def get_ocr_image(pipeline, param_img_root, images_input):
   """
   Aplica Keras-OCR sobre la imagen o imágenes de entrada para extraer el texto plano y las coordenadas
   correspondientes a las palabras que estén presentes.
@@ -56,31 +56,11 @@ def get_ocr_image(param_img_root, images_input):
   :returns: lista de listas correspondientes a las palabras identificadas en la imagen de entrada. Ejemplo: lista de array de información sobre palabras descubiertas ('delete', array([[1161.25,  390.  ], [1216.25,  390.  ], [1216.25,  408.75], [1161.25,  408.75]], dtype=float32))
   :rtype: list
   """
-
-  pipeline = keras_ocr.pipeline.Pipeline()
   
   if not isinstance(images_input, list):
-    print("Solamente una imagen como entrada")
+    # print("Solamente una imagen como entrada")
     images_input = [images_input]
 
-  images_input = [
-        "image0001.png", 
-        "image0002.png",
-        "image0003.png",
-        "image0004.png",
-        "image0005.png",
-        "image0006.png",
-        "image0007.png",
-        "image0008.png",
-        "image0009.png",
-        "image0010.png",
-        "image0011.png",
-        "image0012.png",
-        "image0013.png",
-        "image0014.png",
-        "image0015.png",
-        "image0016.png",
-  ]
   # Get a set of three example images
   images = [
       keras_ocr.tools.read(param_img_root + path) for path in images_input
@@ -112,8 +92,8 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
     :type path_to_save_bordered_images: str
     """
     # Recorremos la lista de imágenes
-    for i in range(0, len(image_names)):
-        image_path = param_img_root + image_names[i]
+    for img_index in range(0, len(image_names)):
+        image_path = param_img_root + image_names[img_index]
         # Leemos la imagen
         img = cv2.imread(image_path)
         img_copy = img.copy()
@@ -123,18 +103,18 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
         # Cada fila es un cuadro de texto distinto, mucho más amigable que el formato que devuelve keras_ocr
         global_y = []
         global_x = []
-        for j in range(0, len(texto_detectado_ocr[i])):
+        for j in range(0, len(texto_detectado_ocr[img_index])):
             coordenada_y = []
             coordenada_x = []
-            for i in range(0,len(texto_detectado_ocr[i][j][1])):
-                coordenada_y.append(texto_detectado_ocr[i][j][1][i][1])
-                coordenada_x.append(texto_detectado_ocr[i][j][1][i][0])
+            for i in range(0,len(texto_detectado_ocr[img_index][j][1])):
+                coordenada_y.append(texto_detectado_ocr[img_index][j][1][i][1])
+                coordenada_x.append(texto_detectado_ocr[img_index][j][1][i][0])
             global_y.append(coordenada_y)
             global_x.append(coordenada_x)
             #print('Coord y, cuadro texto ' +str(j+1)+ str(global_y[j]))
             #print('Coord x, cuadro texto ' +str(j+1)+ str(global_x[j]))
 
-        print("\n Número cuadros de texto detectados " + i + ": " + str(len(texto_detectado_ocr[i])))
+        print("\n\nNúmero cuadros de texto detectados (iteración " + str(img_index) + "): " + str(len(texto_detectado_ocr[img_index])))
 
         # Cálculo los intervalos de los cuadros de texto
         intervalo_y=[]
@@ -142,8 +122,8 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
         for j in range(0, len(global_y)):
             intervalo_y.append([int(max(global_y[j])), int(min(global_y[j]))])
             intervalo_x.append([int(max(global_x[j])), int(min(global_x[j]))])
-        print("intervalo y", intervalo_y)
-        print("intervalo x", intervalo_x)
+        # print("Intervalo y", intervalo_y)
+        # print("Intervalo x", intervalo_x)
             
         # Convertimos a escala de grises
         gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -159,12 +139,12 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
 
         # Buscamos los contornos
         (contornos,_) = cv2.findContours(canny.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        print("\n Número de componentes GUI detectados:", len(contornos), "\n")
+        print("\n\nNúmero de componentes GUI detectados: ", len(contornos), "\n")
 
         # y los dibujamos
         cv2.drawContours(img_copy,contornos,-1,(0,0,255), 2)
         # cv2_imshow(img_copy)
-        cv2.imwrite(path_to_save_bordered_images+ image_names[i] +'_contornos.png', img_copy)
+        cv2.imwrite(path_to_save_bordered_images+ image_names[img_index] +'_contornos.png', img_copy)
 
         #Llevamos a cabo los recortes para cada contorno detectado
         recortes = []
@@ -204,20 +184,17 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
                     h = max(intervalo_y[k])
                     #crop_img = img[min(intervalo_y[k]) : max(intervalo_y[k]), min(intervalo_x[k]) : max(intervalo_x[k])]
                     print("Componente " + str(j+1) + " solapa con cuadro de texto")
-
             #if (solapa_y == 1 and solapa_x == 1):
             #crop_img = img[min(intervalo_y[k]) : max(intervalo_y[k]), min(intervalo_x[k]) : max(intervalo_x[k])]
             #print("Componente " + str(j+1) + " solapa con cuadro de texto")
             #recortes.append(crop_img)
             #else:
-
             # Si el componente GUI solapa con el cuadro de texto, cortamos el cuadro de texto a partir de las coordenadas de sus esquinas
             if (condicion_recorte):
                 crop_img = img[y:h, x:w]
                 recortes.append(crop_img)
-        aux = np.array(recortes)
-        np.save(path_to_save_gui_components_npy + image_names[i] + ".npy", aux)
-        return aux
+        aux = np.array(recortes, dtype=object)
+        np.save(path_to_save_gui_components_npy + image_names[img_index] + ".npy", aux)
 
 # Para el caso de este ejemplo elegimos la función de Zero-padding para redimensionar las imágenes
 def pad(img, h, w):
@@ -250,7 +227,7 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
     loaded_model.load_weights(param_model_weights)
-    print("=========== Loaded ML model from disk")
+    print("\n\nLoaded ML model from disk\n")
 
     """
     Tras comprobar el accuracy obtenido tras la evaluación, vamos a aplicar el modelo a un experimento basado en un log,
@@ -278,13 +255,13 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
         print(crop_img)
         aux = []
         for index, img in enumerate(crop_imgs[crop_img]["content"]):
-            print("=========== Original "+str(index)+": "+str(img.shape))
+            print("\nOriginal "+str(index)+": "+str(img.shape))
             if img.shape[1] > 150:
                 img = img[0:img.shape[0], 0:150]
             if img.shape[0] > 150:
                 img = img[0:150, 0:img.shape[1]]
             img_padded = padding_function(img, 150, 150)
-            print("=========== Padded: "+str(img_padded.shape))
+            print("\nPadded: "+str(img_padded.shape))
             img_resized = tf.image.resize(img_padded, [50,50], method=tf.image.ResizeMethod.NEAREST_NEIGHBOR, preserve_aspect_ratio=True,antialias=True)
             aux.append(img_resized)
         crop_imgs[crop_img]["content_preprocessed"] = aux
