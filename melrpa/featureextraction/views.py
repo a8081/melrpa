@@ -193,7 +193,7 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
             if (condicion_recorte):
                 crop_img = img[y:h, x:w]
                 recortes.append(crop_img)
-        aux = np.array(recortes, dtype=object)
+        aux = np.array(recortes)
         np.save(path_to_save_gui_components_npy + image_names[img_index] + ".npy", aux)
 
 # Para el caso de este ejemplo elegimos la función de Zero-padding para redimensionar las imágenes
@@ -240,46 +240,49 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     images_root = param_images_root #"mockups_vector/"
     crop_imgs = {}
     images_names = os.listdir(images_root)
-    for img_filename in os.listdir(images_root):
+    for img_filename in images_names:
         crop_img_aux = np.load(images_root+img_filename, allow_pickle=True)
         crop_imgs[img_filename] = {'content': crop_img_aux}
-
-    # crop_imgs[images_names[0]]["content"][0].shape
 
     """
     Una vez cargadas, reducimos su tamaño para adecuarlo a la entrada de la red neuronal convolucional producto de este
     notebook.
     """
-   
-    for crop_img in crop_imgs:
-        print(crop_img)
+    crop_images = list(crop_imgs)
+    print("Padded: (150, 150, 3)")
+    print("Cropped: (50, 50, 3)\n\n")
+    for i in range(0,len(crop_imgs)):
         aux = []
-        for index, img in enumerate(crop_imgs[crop_img]["content"]):
-            print("\nOriginal "+str(index)+": "+str(img.shape))
+        for index, img in enumerate(crop_imgs[crop_images[i]]["content"]):
+            print("Original "+str(index)+": "+str(img.shape))
             if img.shape[1] > 150:
                 img = img[0:img.shape[0], 0:150]
             if img.shape[0] > 150:
                 img = img[0:150, 0:img.shape[1]]
             img_padded = padding_function(img, 150, 150)
-            print("\nPadded: "+str(img_padded.shape))
+            # print("Padded: "+str(img_padded.shape))
             img_resized = tf.image.resize(img_padded, [50,50], method=tf.image.ResizeMethod.NEAREST_NEIGHBOR, preserve_aspect_ratio=True,antialias=True)
             aux.append(img_resized)
-        crop_imgs[crop_img]["content_preprocessed"] = aux
+            # print("Cropped: "+str(img_resized.shape))
+        crop_imgs[crop_images[i]]["content_preprocessed"] = aux
+        """
+        Esta red devuelve como salida un número, indicando una de las clases. Este número tendrá que ser mapeado a su texto
+        (nombre de la clase) correspondiente.
+        """    
+        content_preprocessed_aux = crop_imgs[images_names[i]]["content_preprocessed"]
 
-    """
-    Esta red devuelve como salida un número, indicando una de las clases. Este número tendrá que ser mapeado a su texto
-    (nombre de la clase) correspondiente.
-    """
+        print("Content preprocessed length: " + str(len(crop_imgs[images_names[i]]["content_preprocessed"])))
+        #result = loaded_model.predict_classes(np.array(content_preprocessed_aux)) # removed from tensorflow 2.6
+        # for gui_component in content_preprocessed_aux:
+        # print("Content preprocessed object type: " + str(type(gui_component)))
+        # print("Content preprocessed component shape: " + str(gui_component.shape))
+        predict_x=loaded_model.predict(np.array(content_preprocessed_aux)) 
+        result=np.argmax(predict_x,axis=1)
 
-    for i in range(0,len(images_names)):
-        aux_2 = crop_imgs[images_names[i]]["content_preprocessed"]
-        result = loaded_model.predict_classes(np.array(aux_2))
         result_mapped = [column_names[x] for x in result]
         crop_imgs[images_names[i]]["result"] = result_mapped
         crop_imgs[images_names[i]]["result_freq"] = pd.Series(result_mapped).value_counts()
         crop_imgs[images_names[i]]["result_freq_df"] = crop_imgs[images_names[i]]["result_freq"].to_frame().T
-
-    a = crop_imgs[images_names[0]]["result_freq_df"].columns.tolist()
 
     """
     Como todas las imágenes no tendrán todas las clases, generarán como salida un dataset que no tendrán siempre las mismas
