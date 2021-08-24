@@ -227,6 +227,7 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
     loaded_model.load_weights(param_model_weights)
+    # model = tf.keras.models.load_model('media/models/model_remaui.pb')
     print("\n\nLoaded ML model from disk\n")
 
     """
@@ -278,6 +279,8 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
         # print("Content preprocessed component shape: " + str(gui_component.shape))
         predict_x=loaded_model.predict(np.array(content_preprocessed_aux)) 
         result=np.argmax(predict_x,axis=1)
+        print("\n\nPREDICTIONS:")
+        print(result)
 
         result_mapped = [column_names[x] for x in result]
         crop_imgs[images_names[i]]["result"] = result_mapped

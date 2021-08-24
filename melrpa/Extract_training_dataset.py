@@ -61,12 +61,12 @@ for index, c  in enumerate(cases, start=0):
 # import pprint
 # pprint.pprint(dataset_map)
 
-columns_to_drop = [param_case_column_name, param_activity_column_name, param_timestamp_column_name, param_screenshot_column_name]
+columns_to_drop = [param_case_column_name, param_activity_column_name, param_timestamp_column_name, param_screenshot_column_name, param_variant_column_name]
 columns = list(log.columns)
 for c in columns_to_drop:
     columns.remove(c)
 
 # Establecemos columnas comunes y al resto de columnas se le concatena el "_" actividad
-data_flattened = flat_dataset_row(dataset_map, columns, param_timestamp_column_name, columns_to_drop, param_decision_point_activity)
+data_flattened = flat_dataset_row(dataset_map, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity)
 print(data_flattened)
 data_flattened.to_csv('media/preprocessed-dataset.csv')

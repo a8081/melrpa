@@ -2,13 +2,14 @@ from django.shortcuts import render
 import pandas as pd
 
 # Create your views here.
-def flat_dataset_row(data, columns, param_timestamp_column_name, columns_to_drop, param_decision_point_activity):
+def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity):
     df_content = []
     for case in data["cases"]:
         timestamp_start = data["cases"][case]["A"].get(key=param_timestamp_column_name)
         timestamp_end = data["cases"][case][param_decision_point_activity].get(param_timestamp_column_name)
-        row = [timestamp_start, timestamp_end, case]
-        headers = ["Timestamp_start", "Timestamp_end", "Caso"]
+        variant = data["cases"][case]["A"].get(key=param_variant_column_name)
+        row = [variant, case, timestamp_start, timestamp_end]
+        headers = ["Variant", "Case", "Timestamp_start", "Timestamp_end"]
         for act in data["cases"][case]:
             # case
             # variant_id
@@ -28,8 +29,3 @@ def flat_dataset_row(data, columns, param_timestamp_column_name, columns_to_drop
         # print(headers)
     df = pd.DataFrame(df_content, columns = headers)
     return df
-
-def accumulate_values(data, row, case, act, headers, columns, columns_to_drop):
-    row.append(data["cases"][case][act].drop(columns_to_drop).values.tolist())
-    for c in columns:
-        headers.append(c+"_"+act)

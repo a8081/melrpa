@@ -26,7 +26,7 @@ Hacemos uso de la libería OpenCV para llevar a cabo las siguientes tareas:
 """
 
 # Comando para hacer uso del script:
-# ./GUI_components_detection.py media/LogExample.csv media/screenshots/
+# ./GUI_components_detection.py media/log.csv media/screenshots/
 import sys
 import pickle
 import keras_ocr
@@ -39,8 +39,9 @@ from featureextraction.views import get_ocr_image, detect_images_components
 
 
 # Parametros que se pasan por consola
-param_log_path=sys.argv[1]
-param_img_root=sys.argv[2]
+
+param_log_path = sys.argv[1] if len(sys.argv) > 1 else "media/log.csv"
+param_img_root = sys.argv[2] if len(sys.argv) > 2 else "media/screenshots/"
 
 # param_log_path="media/LogExample.csv"
 # param_img_root="media/screenshots/"
