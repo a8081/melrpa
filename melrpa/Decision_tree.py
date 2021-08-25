@@ -1,17 +1,19 @@
-# -*- coding: utf-8 -*-
+#!C:/Users/Antonio/Documents/TFM/melrpa/melrpa/env/Scripts/python.exe
 """
-Módulo 3. Decision model discovery
+Modulo 3 - Decision model discovery
 """
 
 # Commented out IPython magic to ensure Python compatibility.
+import sys
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 # %matplotlib inline
 
-df = pd.read_csv('preprocessed-dataset2.csv',index_col=0, sep=',')
+param_preprocessed_log_path = sys.argv[1]
 
+df = pd.read_csv(param_preprocessed_log_path,index_col=0, sep=';')
 # df.head()
 # df.info()
 
@@ -22,7 +24,8 @@ for c in df.columns:
     one_hot_cols.append(c)
   elif "TextInput" in c:
     text_cols.append(c)
-print("\n\nColumns to drop:")
+
+print("\n\nColumns to drop: ")
 print(one_hot_cols)
 print(text_cols)
 
@@ -56,33 +59,50 @@ clf_model.fit(X_train,y_train)
 
 y_predict = clf_model.predict(X_test)
 
-print(X_test)
+
 
 print("\n\nConjunto de prueba: ")
+print(X_test)
+print("\n\nEtiquetas reales: ")
 print(y_test)
 print("\n\nPredicciones sobre el conjunto de pruebas: ")
 print(y_predict)
 
 from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
-accuracy_score(y_test,y_predict)
+
+print("\n\nAccuracy_score")
+print(accuracy_score(y_test,y_predict))
 
 target = list(df['Variant'].unique())
 feature_names = list(X.columns)
 
 from sklearn.tree import export_text
-t_representation = export_text(clf_model, feature_names=feature_names)
-print(t_representation)
+text_representation = export_text(clf_model, feature_names=feature_names)
+print("\n\nDecision Tree Text Representation")
+print(text_representation)
 
-# from sklearn import tree
-# import graphviz
-# dot_data = tree.export_graphviz(clf_model,
-#                                 out_file=None, 
-#                       feature_names=feature_names,  
-#                       class_names=target,  
-#                       filled=True, rounded=True,  
-#                       special_characters=True)  
-# graph = graphviz.Source(dot_data)  
+with open("media/decistion_tree.log", "w") as fout:
+    fout.write(text_representation)
 
-# print(graph)
+target_casted = [str(t) for t in target]
+type(target_casted[0])
 
-# graph.save('graph1.jpg')
+# fig = plt.figure(figsize=(25,20))
+# _ = tree.plot_tree(clf_model, 
+#                    feature_names=feature_names,  
+#                    class_names=target_casted,
+#                    filled=True)
+
+from sklearn import tree
+import graphviz
+dot_data = tree.export_graphviz(clf_model,
+                                out_file=None, 
+                      feature_names=feature_names,  
+                      class_names=target_casted,  
+                      filled=True, rounded=True,  
+                      special_characters=True)  
+graph = graphviz.Source(dot_data)  
+
+# graph
+
+graph.save('media/graph1.jpg')
