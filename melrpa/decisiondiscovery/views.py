@@ -1,5 +1,13 @@
 from django.shortcuts import render
 import pandas as pd
+import os
+from typing import List
+
+import graphviz
+import matplotlib.image as plt_img
+import numpy as np
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
+
 
 # Create your views here.
 def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity):
@@ -29,3 +37,31 @@ def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_c
         # print(headers)
     df = pd.DataFrame(df_content, columns = headers)
     return df
+
+
+# https://gist.github.com/j-adamczyk/dc82f7b54d49f81cb48ac87329dba95e#file-graphviz_disk_op-py
+def plot_decision_tree(path: str,
+                         clf: DecisionTreeClassifier,
+                         feature_names: List[str],
+                         class_names: List[str]) -> np.ndarray:
+    # 1st disk operation: write DOT
+    export_graphviz(clf, out_file=path+".dot",
+                    feature_names=feature_names,
+                    class_names=class_names,
+                    label="all", filled=True, impurity=False,
+                    proportion=True, rounded=True, precision=2)
+
+    # 2nd disk operation: read DOT
+    graph = graphviz.Source.from_file(path + ".dot")
+
+    # 3rd disk operation: write image
+    graph.render(path, format="png")
+
+    # 4th disk operation: read image
+    image = plt_img.imread(path + ".png")
+
+    # 5th and 6th disk operations: delete files
+    os.remove(path + ".dot")
+    # os.remove("decision_tree.png")
+
+    return image

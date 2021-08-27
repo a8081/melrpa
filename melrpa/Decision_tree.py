@@ -5,10 +5,12 @@ Modulo 3 - Decision model discovery
 
 # Commented out IPython magic to ensure Python compatibility.
 import sys
+import os
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from decisiondiscovery.views import plot_decision_tree
 # %matplotlib inline
 
 param_preprocessed_log_path = sys.argv[1]
@@ -93,16 +95,6 @@ type(target_casted[0])
 #                    class_names=target_casted,
 #                    filled=True)
 
-from sklearn import tree
-import graphviz
-dot_data = tree.export_graphviz(clf_model,
-                                out_file=None, 
-                      feature_names=feature_names,  
-                      class_names=target_casted,  
-                      filled=True, rounded=True,  
-                      special_characters=True)  
-graph = graphviz.Source(dot_data)  
-
-# graph
-
-graph.save('media/graph1.jpg')
+img = plot_decision_tree("media/decision_tree", clf_model,feature_names,target_casted)
+plt.imshow(img)
+plt.show()
