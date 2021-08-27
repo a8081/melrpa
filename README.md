@@ -4,6 +4,8 @@ Mining Event Logs for Robotic Process Automation: Looking for the why?
 
 ## Requirements:
 Microsoft Visual C++ 14.0
+Graphviz (it can be downloaded from https://www.graphviz.org/download/)
+
 
 ### Download dataset ReDraw from Zenodo
 ´´´
