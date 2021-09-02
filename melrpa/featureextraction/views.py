@@ -237,10 +237,12 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     Cogemos los vectores de numpy correspondientes a cada imagen, obtenidos a través de la aplicación del notebook
     de Detección y recorte de componentes GUI, que tendrán que ser almacenadas en la ruta "mockups_vector/".
     """
+    log = pd.read_csv(param_log_path, sep=";")
 
     images_root = param_images_root #"mockups_vector/"
     crop_imgs = {}
-    images_names = os.listdir(images_root)
+    images_names = [ x + ".npy" for x in log.loc[:,"Screenshot"].values.tolist()] # os.listdir(images_root)
+    # print(images_names)
     for img_filename in images_names:
         crop_img_aux = np.load(images_root+img_filename, allow_pickle=True)
         crop_imgs[img_filename] = {'content': crop_img_aux}
@@ -249,6 +251,8 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     Una vez cargadas, reducimos su tamaño para adecuarlo a la entrada de la red neuronal convolucional producto de este
     notebook.
     """
+    print("\nLog dictionary length: " + str(len(crop_imgs)))
+
     crop_images = list(crop_imgs)
     print("Padded: (150, 150, 3)")
     print("Cropped: (50, 50, 3)\n\n")
@@ -307,7 +311,7 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
                 row1[uiui] = df1[x][0]
                 df.loc[i] = row1
 
-    log = pd.read_csv(param_log_path, sep=";")
+    
 
     """
     Una vez obtenido el dataset correspondiente a la cantidad de elementos de cada clase contenidos en cada una de las

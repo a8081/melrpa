@@ -13,6 +13,7 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity):
     df_content = []
     for case in data["cases"]:
+        # print(case)
         timestamp_start = data["cases"][case]["A"].get(key=param_timestamp_column_name)
         timestamp_end = data["cases"][case][param_decision_point_activity].get(param_timestamp_column_name)
         variant = data["cases"][case]["A"].get(key=param_variant_column_name)

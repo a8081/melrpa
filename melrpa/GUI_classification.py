@@ -17,5 +17,5 @@ param_log_path = sys.argv[4] if len(sys.argv) > 4 else "media/log.csv"
 
 log_enriched = classify_image_components(param_json_file_name, param_model_weights, param_images_root, param_log_path, pad)
     
-log_enriched.to_csv('media/enriched-log-feature-extracted.csv')
-print("=========== ENRICHED LOG GENERATED: path=media/enriched-log-feature-extracted.csv")
+log_enriched.to_csv('media/enriched_log_feature_extracted.csv')
+print("\n\n=========== ENRICHED LOG GENERATED: path=media/enriched_log_feature_extracted.csv")

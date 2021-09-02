@@ -72,3 +72,4 @@ urllib3==1.26.6
 validators==0.18.2
 Werkzeug==2.0.1
 wrapt==1.12.1
+IPython==7.27.0

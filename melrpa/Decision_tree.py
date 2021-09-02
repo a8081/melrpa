@@ -11,11 +11,12 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from decisiondiscovery.views import plot_decision_tree
+from sklearn.ensemble import RandomForestClassifier
 # %matplotlib inline
 
-param_preprocessed_log_path = sys.argv[1]
+param_preprocessed_log_path = sys.argv[1] if len(sys.argv) > 1 else "media/preprocessed_dataset.csv"
 
-df = pd.read_csv(param_preprocessed_log_path,index_col=0, sep=';')
+df = pd.read_csv(param_preprocessed_log_path,index_col=0, sep=',')
 # df.head()
 # df.info()
 
@@ -57,6 +58,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1,random
 
 from sklearn.tree import DecisionTreeClassifier
 clf_model = DecisionTreeClassifier(criterion="gini", random_state=42,max_depth=3, min_samples_leaf=5)   
+# clf_model = RandomForestClassifier(n_estimators=100)   
 clf_model.fit(X_train,y_train)
 
 y_predict = clf_model.predict(X_test)
@@ -78,6 +80,26 @@ print(accuracy_score(y_test,y_predict))
 target = list(df['Variant'].unique())
 feature_names = list(X.columns)
 
+target_casted = [str(t) for t in target]
+
+# estimator = clf_model.estimators_[5]
+
+# from sklearn.tree import export_graphviz
+
+# export_graphviz(estimator, out_file='tree.dot', 
+#                 feature_names = feature_names,
+#                 class_names = target_casted,
+#                 rounded = True, proportion = False, 
+#                 precision = 2, filled = True)
+
+# # Convert to png using system command (requires Graphviz)
+# from subprocess import call
+# call(['dot', '-Tpng', 'tree.dot', '-o', 'tree.png', '-Gdpi=600'])
+
+# # Display in jupyter notebook
+# from IPython.display import Image
+# Image(filename = 'tree.png')
+
 from sklearn.tree import export_text
 text_representation = export_text(clf_model, feature_names=feature_names)
 print("\n\nDecision Tree Text Representation")
@@ -86,14 +108,7 @@ print(text_representation)
 with open("media/decistion_tree.log", "w") as fout:
     fout.write(text_representation)
 
-target_casted = [str(t) for t in target]
 type(target_casted[0])
-
-# fig = plt.figure(figsize=(25,20))
-# _ = tree.plot_tree(clf_model, 
-#                    feature_names=feature_names,  
-#                    class_names=target_casted,
-#                    filled=True)
 
 img = plot_decision_tree("media/decision_tree", clf_model,feature_names,target_casted)
 plt.imshow(img)
