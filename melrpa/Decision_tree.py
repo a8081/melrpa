@@ -15,6 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 # %matplotlib inline
 
 param_preprocessed_log_path = sys.argv[1] if len(sys.argv) > 1 else "media/preprocessed_dataset.csv"
+param_path = sys.argv[2] if len(sys.argv) > 2 else "media/"
 
 df = pd.read_csv(param_preprocessed_log_path,index_col=0, sep=',')
 # df.head()
@@ -105,11 +106,11 @@ text_representation = export_text(clf_model, feature_names=feature_names)
 print("\n\nDecision Tree Text Representation")
 print(text_representation)
 
-with open("media/decistion_tree.log", "w") as fout:
+with open(param_path + "decision_tree.log", "w") as fout:
     fout.write(text_representation)
 
 type(target_casted[0])
 
-img = plot_decision_tree("media/decision_tree", clf_model,feature_names,target_casted)
+img = plot_decision_tree(param_path + "decision_tree", clf_model,feature_names,target_casted)
 plt.imshow(img)
 plt.show()
