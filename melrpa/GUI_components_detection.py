@@ -47,7 +47,7 @@ param_img_root = sys.argv[2] if len(sys.argv) > 2 else "media/screenshots/"
 # param_img_root="media/screenshots/"
 
 # Leemos el log
-log = pd.read_csv(param_log_path, sep=";")
+log = pd.read_csv(param_log_path, sep=",")
 # Extraemos los nombres de las capturas asociadas a cada fila del log
 image_names = log.loc[:,"Screenshot"].values.tolist()
 pipeline = keras_ocr.pipeline.Pipeline()

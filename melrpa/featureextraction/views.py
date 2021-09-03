@@ -254,7 +254,7 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     Cogemos los vectores de numpy correspondientes a cada imagen, obtenidos a través de la aplicación del notebook
     de Detección y recorte de componentes GUI, que tendrán que ser almacenadas en la ruta "mockups_vector/".
     """
-    log = pd.read_csv(param_log_path, sep=";")
+    log = pd.read_csv(param_log_path, sep=",")
 
     images_root = param_images_root #"mockups_vector/"
     crop_imgs = {}
