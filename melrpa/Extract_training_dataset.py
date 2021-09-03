@@ -11,7 +11,7 @@ from decisiondiscovery.views import flat_dataset_row
 
 # Parametros que se pasan por consola
 
-param_decision_point_activity = sys.argv[1] if len(sys.argv) > 1 else "C"
+param_decision_point_activity = sys.argv[1]
 param_log_path = sys.argv[2] if len(sys.argv) > 2 else "media/enriched_log_feature_extracted.csv"
 param_activity_column_name = sys.argv[3] if len(sys.argv) > 5 else "Activity"
 param_variant_column_name = sys.argv[4] if len(sys.argv) > 5 else "Variant"

@@ -1,0 +1,109 @@
+,Timestamp,Case,Activity,Variant,MorKeyb,Coor_X,Coor_Y,TextInput,NameApp,Screenshot,x0_RatingBar,x0_ToggleButton,x0_Spinner,x0_Switch,x0_CheckBox,x0_TextView,x0_EditText,x0_ImageButton,x0_NumberPicker,x0_CheckedTextView,x0_SeekBar,x0_ImageView,x0_RadioButton,x0_Button
+0,12312312,1,A,1,1,123.0,32.0,,Firefox,image1.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+1,12312313,1,B,1,0,123.0,32.0,Registration,Firefox,image2.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+2,12312314,1,C,1,0,32.0,43.0,Registration,Firefox,image3.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+3,12312315,1,D,1,1,44.0,12.0,Registration,Firefox,image4.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+4,12312316,1,E,1,0,44.0,12.0,28362233J,CRM,image5.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+5,12312317,2,A,1,0,122.0,31.0,28362233J,Firefox,image6.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+6,12312318,2,B,1,1,122.0,31.0,Registration,Firefox,image7.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+7,12312319,2,C,1,1,31.0,43.0,Registration,Firefox,image8.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+8,12312320,2,D,1,1,44.0,13.0,Registration,Firefox,image9.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+9,12312321,2,E,1,0,44.0,13.0,28362233J,CRM,image10.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+10,12312322,3,A,2,0,123.0,31.0,28362233J,Firefox,image11.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+11,12312323,3,B,2,1,123.0,31.0,Registration,Firefox,image12.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+12,12312324,3,C,2,0,32.0,44.0,Registration,Firefox,image13.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+13,12312325,3,F,2,1,45.0,12.0,Please attach your identify card,Firefox,image14.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+14,12312326,4,A,2,0,124.0,33.0,Please attach your identify card,Firefox,image15.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+15,12312327,4,B,2,1,124.0,33.0,Registration,Firefox,image16.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+16,12312328,4,C,2,0,32.0,45.0,Registration,Firefox,image17.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+17,12312329,4,F,2,1,32.0,45.0,Please attach your identify card,Firefox,image18.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+18,12312330,5,A,1,1,121.0,32.0,Please attach your identify card,Firefox,image19.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+19,12312331,5,B,1,0,121.0,32.0,Registration,Firefox,image20.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+20,12312332,5,C,1,0,31.0,41.0,Registration,Firefox,image21.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+21,12312333,5,D,1,1,42.0,12.0,Registration,Firefox,image22.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+22,12312334,5,E,1,0,42.0,12.0,28362233J,CRM,image23.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+23,12312335,6,A,1,1,122.0,33.0,28362233J,Firefox,image24.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+24,12312336,6,B,1,0,122.0,33.0,Registration,Firefox,image25.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+25,12312337,6,C,1,0,30.0,43.0,Registration,Firefox,image26.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+26,12312338,6,D,1,1,44.0,14.0,Registration,Firefox,image27.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+27,12312339,6,E,1,0,44.0,14.0,28362233J,CRM,image28.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+28,12312340,7,A,1,1,44.0,13.0,28362233J,Firefox,image29.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+29,12312341,7,B,1,1,44.0,13.0,Registration,Firefox,image30.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+30,12312342,7,C,1,0,23.0,55.0,Registration,Firefox,image31.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+31,12312343,7,D,1,1,43.0,12.0,Registration,Firefox,image32.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+32,12312344,7,E,1,1,43.0,12.0,28362233J,CRM,image33.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+33,12312345,8,A,2,0,23.0,52.0,28362233J,Firefox,image34.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+34,12312346,8,B,2,1,23.0,52.0,Registration,Firefox,image35.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+35,12312347,8,C,2,0,42.0,14.0,Registration,Firefox,image36.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+36,12312348,8,F,2,0,42.0,14.0,Please attach your identify card,Firefox,image37.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+37,12312349,9,A,2,1,24.0,55.0,Please attach your identify card,Firefox,image38.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+38,12312350,9,B,2,0,24.0,55.0,Registration,Firefox,image39.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+39,12312351,9,C,2,1,43.0,13.0,Registration,Firefox,image40.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+40,12312352,9,F,2,0,43.0,13.0,Please attach your identify card,Firefox,image41.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+41,12312353,10,A,2,0,21.0,53.0,Please attach your identify card,Firefox,image42.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+42,12312354,10,B,2,1,21.0,53.0,Registration,Firefox,image43.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+43,12312355,10,C,2,0,44.0,12.0,Registration,Firefox,image44.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+44,12312356,10,F,2,1,44.0,12.0,Please attach your identify card,Firefox,image45.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+45,12312357,11,A,1,1,125.0,32.0,Please attach your identify card,Firefox,image46.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+46,12312358,11,B,1,0,125.0,32.0,Registration,Firefox,image47.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+47,12312359,11,C,1,0,31.0,44.0,Registration,Firefox,image48.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+48,12312360,11,D,1,1,42.0,14.0,Registration,Firefox,image49.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+49,12312361,11,E,1,0,42.0,14.0,28362233J,CRM,image50.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+50,12312362,12,A,1,0,123.0,30.0,28362233J,Firefox,image51.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+51,12312363,12,B,1,1,123.0,30.0,Registration,Firefox,image52.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+52,12312364,12,C,1,0,30.0,42.0,Registration,Firefox,image53.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+53,12312365,12,D,1,1,44.0,13.0,Registration,Firefox,image54.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+54,12312366,12,E,1,0,44.0,13.0,28362233J,CRM,image55.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+55,12312367,13,A,2,0,125.0,31.0,28362233J,Firefox,image56.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+56,12312368,13,B,2,1,125.0,31.0,Registration,Firefox,image57.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+57,12312369,13,C,2,1,31.0,42.0,Registration,Firefox,image58.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+58,12312370,13,F,2,1,46.0,12.0,Please attach your identify card,Firefox,image59.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+59,12312371,14,A,2,0,121.0,31.0,Please attach your identify card,Firefox,image60.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+60,12312372,14,B,2,1,121.0,31.0,Registration,Firefox,image61.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+61,12312373,14,C,2,0,32.0,42.0,Registration,Firefox,image62.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+62,12312374,14,F,2,1,32.0,42.0,Please attach your identify card,Firefox,image63.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+63,12312375,15,A,1,1,120.0,33.0,Please attach your identify card,Firefox,image64.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+64,12312376,15,B,1,0,120.0,33.0,Registration,Firefox,image65.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+65,12312377,15,C,1,0,33.0,42.0,Registration,Firefox,image66.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+66,12312378,15,D,1,1,44.0,14.0,Registration,Firefox,image67.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+67,12312379,15,E,1,0,44.0,14.0,28362233J,CRM,image68.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+68,12312380,16,A,1,1,124.0,32.0,28362233J,Firefox,image69.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+69,12312381,16,B,1,0,124.0,32.0,Registration,Firefox,image70.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+70,12312382,16,C,1,0,32.0,44.0,Registration,Firefox,image71.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+71,12312383,16,D,1,1,44.0,12.0,Registration,Firefox,image72.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+72,12312384,16,E,1,0,44.0,12.0,28362233J,CRM,image73.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+73,12312385,17,A,1,1,43.0,11.0,28362233J,Firefox,image74.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+74,12312386,17,B,1,1,43.0,11.0,Registration,Firefox,image75.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+75,12312387,17,C,1,0,23.0,55.0,Registration,Firefox,image76.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+76,12312388,17,D,1,1,44.0,11.0,Registration,Firefox,image77.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+77,12312389,17,E,1,1,44.0,11.0,28362233J,CRM,image78.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+78,12312390,18,A,2,0,23.0,55.0,28362233J,Firefox,image79.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+79,12312391,18,B,2,1,23.0,55.0,Registration,Firefox,image80.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+80,12312392,18,C,2,0,45.0,12.0,Registration,Firefox,image81.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+81,12312393,18,F,2,0,45.0,12.0,Please attach your identify card,Firefox,image82.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+82,12312394,19,A,2,1,23.0,55.0,Please attach your identify card,Firefox,image83.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+83,12312395,19,B,2,0,23.0,55.0,Registration,Firefox,image84.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+84,12312396,19,C,2,1,44.0,13.0,Registration,Firefox,image85.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+85,12312397,19,F,2,0,44.0,13.0,Please attach your identify card,Firefox,image86.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+86,12312398,20,A,2,0,23.0,55.0,Please attach your identify card,Firefox,image87.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+87,12312399,20,B,2,1,23.0,55.0,Registration,Firefox,image88.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+88,12312400,20,C,2,0,44.0,11.0,Registration,Firefox,image89.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+89,12312401,20,F,2,1,44.0,11.0,Please attach your identify card,Firefox,image90.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+90,12312402,21,A,1,1,124.0,31.0,Please attach your identify card,Firefox,image91.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+91,12312403,21,B,1,0,124.0,31.0,Registration,Firefox,image92.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+92,12312404,21,C,1,0,30.0,42.0,Registration,Firefox,image93.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+93,12312405,21,D,1,1,43.0,12.0,Registration,Firefox,image94.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+94,12312406,21,E,1,0,43.0,12.0,28362233J,CRM,image95.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+95,12312407,22,A,1,0,121.0,31.0,28362233J,Firefox,image96.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+96,12312408,22,B,1,1,121.0,31.0,Registration,Firefox,image97.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+97,12312409,22,C,1,0,32.0,44.0,Registration,Firefox,image98.png,0,0,0,0,0,25,0,1,0,0,0,0,0,5
+98,12312410,22,D,1,1,45.0,12.0,Registration,Firefox,image99.png,0,0,0,0,0,79,0,2,0,0,0,0,0,13
+99,12312411,22,E,1,0,45.0,12.0,28362233J,CRM,image100.png,0,0,0,0,1,14,0,1,0,0,0,0,0,0
+100,12312412,23,A,2,0,120.0,33.0,28362233J,Firefox,image101.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+101,12312413,23,B,2,1,120.0,33.0,Registration,Firefox,image102.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+102,12312414,23,C,2,1,31.0,43.0,Registration,Firefox,image103.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+103,12312415,23,F,2,1,44.0,13.0,Please attach your identify card,Firefox,image104.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3
+104,12312416,24,A,2,0,122.0,34.0,Please attach your identify card,Firefox,image105.png,0,1,0,0,0,34,0,0,0,0,0,0,0,0
+105,12312417,24,B,2,1,122.0,34.0,Registration,Firefox,image106.png,0,1,0,0,0,33,0,0,0,0,0,0,0,0
+106,12312418,24,C,2,0,30.0,44.0,Registration,Firefox,image107.png,0,0,0,0,0,12,0,1,0,0,0,2,0,5
+107,12312419,24,F,2,1,30.0,44.0,Please attach your identify card,Firefox,image108.png,0,0,0,0,0,16,0,1,0,0,0,0,0,3

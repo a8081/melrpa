@@ -206,6 +206,23 @@ def pad(img, h, w):
     return np.copy(np.pad(img, ((top_pad, bottom_pad), (left_pad, right_pad), (0, 0)), mode='constant', constant_values=0))
 
 def classify_image_components(param_json_file_name, param_model_weights, param_images_root, param_log_path, padding_function):
+    """
+    Con esta función clasificamos los componentes recortados de cada una de las capturas para posteriormente añadir al log
+    14 columnas. Estas corresponden a cada una de las clases en las que se puede clasificar un componente GUI. Los valores 
+    indicados en estas columnas añadidas indican cuántos de componentes GUI están presentes en la captura según su tipo, es
+    decir, 2 button, 3 image_view, 1 text_view, etc.
+
+    :param_img_root: ruta donde se almacenan las imágenes capturadas asociadas a cada fila del log
+    :type param_img_root: str
+    :param_json_file_name: estructura del modelo de conocimiento de la red neuronal que clasifica los componentes GUI
+    :type param_json_file_name: json
+    :param_model_weights: pesos de las aristas de la red neuronal que clasifica los componentes GUI 
+    :type param_model_weights: h5
+    :param_log_path: ruta donde se encuentra el log que queremos enriquecer con cuántos componentes GUI de cada tipo hay en sus capturas
+    :type param_log_path: str
+    :padding_function: funcion utilizada para llevar a cabo la redimensión de las imágenes, el padding
+    :type padding_function: function
+    """
     column_names = ['x0_Button', 'x0_CheckBox', 'x0_CheckedTextView', 'x0_EditText',
         'x0_ImageButton', 'x0_ImageView', 'x0_NumberPicker', 'x0_RadioButton',
         'x0_RatingBar', 'x0_SeekBar', 'x0_Spinner', 'x0_Switch', 'x0_TextView',

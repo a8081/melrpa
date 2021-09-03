@@ -11,6 +11,25 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 
 # Create your views here.
 def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity):
+    """
+    Con esta función convertimos el log en un dataset, de manera que aplanamos todos los registros que existan sobre un mismo caso,
+    resultando una sola fila por cada caso. Para este aplanamiento solamente se tienen en cuenta los registros relativos a las actividades
+    anteriores a la indicada en param_decision_point_activity, incluyendo a esta última. Se concatena el nombre de las columnas de las actividades
+    con su identificación, por ejemplo, timestamp_A, timestamp_B, etc.
+
+    :data: map cuyas claves corresponden con el identificador de cada cado y cuyos valores son cada actividad asociada a dicho caso, con su información asociada
+    :type data: map
+    :columns: nombre de las columnas del dataset que se quieren almacenar para cada actividad
+    :type columns: list
+    :param_timestamp_column_name: nombre de la columna donde se almacena el timestamp
+    :type param_timestamp_column_name: str
+    :param_variant_column_name: nombre de la columna donde se almacena la variante, que será la etiqueta de nuestro problema
+    :type param_variant_column_name: str
+    :columns_to_drop: nombre de las columnas a eliminar del dataset
+    :type columns_to_drop: list
+    :param_decision_point_activity: identificador de la actividad inmediatamente anterior al punto de decisión cuyo por qué se quiere descubrir
+    :type param_decision_point_activity: str
+    """
     df_content = []
     for case in data["cases"]:
         # print(case)

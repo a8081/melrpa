@@ -1,0 +1,109 @@
+﻿Timestamp;Case;Activity;Variant;MorKeyb;Coor_X;Coor_Y;TextInput;NameApp;Screenshot
+12312312;1;A;1;1;123;32;NaN;Firefox;image1.png
+12312313;1;B;1;0;NaN;NaN;Registration;Firefox;image2.png
+12312314;1;C;1;0;32;43;NaN;Firefox;image3.png
+12312315;1;D;1;1;44;12;NaN;Firefox;image4.png
+12312316;1;E;1;0;NaN;NaN;28362233J;CRM;image5.png
+12312317;2;A;1;0;122;31;NaN;Firefox;image6.png
+12312318;2;B;1;1;NaN;NaN;Registration;Firefox;image7.png
+12312319;2;C;1;1;31;43;NaN;Firefox;image8.png
+12312320;2;D;1;1;44;13;NaN;Firefox;image9.png
+12312321;2;E;1;0;NaN;NaN;28362233J;CRM;image10.png
+12312322;3;A;2;0;123;31;NaN;Firefox;image11.png
+12312323;3;B;2;1;NaN;NaN;Registration;Firefox;image12.png
+12312324;3;C;2;0;32;44;NaN;Firefox;image13.png
+12312325;3;F;2;1;45;12;Please attach your identify card;Firefox;image14.png
+12312326;4;A;2;0;124;33;NaN;Firefox;image15.png
+12312327;4;B;2;1;NaN;NaN;Registration;Firefox;image16.png
+12312328;4;C;2;0;32;45;NaN;Firefox;image17.png
+12312329;4;F;2;1;NaN;NaN;Please attach your identify card;Firefox;image18.png
+12312330;5;A;1;1;121;32;NaN;Firefox;image19.png
+12312331;5;B;1;0;NaN;NaN;Registration;Firefox;image20.png
+12312332;5;C;1;0;31;41;NaN;Firefox;image21.png
+12312333;5;D;1;1;42;12;NaN;Firefox;image22.png
+12312334;5;E;1;0;NaN;NaN;28362233J;CRM;image23.png
+12312335;6;A;1;1;122;33;NaN;Firefox;image24.png
+12312336;6;B;1;0;NaN;NaN;Registration;Firefox;image25.png
+12312337;6;C;1;0;30;43;NaN;Firefox;image26.png
+12312338;6;D;1;1;44;14;NaN;Firefox;image27.png
+12312339;6;E;1;0;NaN;NaN;28362233J;CRM;image28.png
+12312340;7;A;1;1;44;13;NaN;Firefox;image29.png
+12312341;7;B;1;1;NaN;NaN;Registration;Firefox;image30.png
+12312342;7;C;1;0;23;55;NaN;Firefox;image31.png
+12312343;7;D;1;1;43;12;NaN;Firefox;image32.png
+12312344;7;E;1;1;NaN;NaN;28362233J;CRM;image33.png
+12312345;8;A;2;0;23;52;NaN;Firefox;image34.png
+12312346;8;B;2;1;NaN;NaN;Registration;Firefox;image35.png
+12312347;8;C;2;0;42;14;NaN;Firefox;image36.png
+12312348;8;F;2;0;NaN;NaN;Please attach your identify card;Firefox;image37.png
+12312349;9;A;2;1;24;55;NaN;Firefox;image38.png
+12312350;9;B;2;0;NaN;NaN;Registration;Firefox;image39.png
+12312351;9;C;2;1;43;13;NaN;Firefox;image40.png
+12312352;9;F;2;0;NaN;NaN;Please attach your identify card;Firefox;image41.png
+12312353;10;A;2;0;21;53;NaN;Firefox;image42.png
+12312354;10;B;2;1;NaN;NaN;Registration;Firefox;image43.png
+12312355;10;C;2;0;44;12;NaN;Firefox;image44.png
+12312356;10;F;2;1;NaN;NaN;Please attach your identify card;Firefox;image45.png
+12312357;11;A;1;1;125;32;NaN;Firefox;image46.png
+12312358;11;B;1;0;NaN;NaN;Registration;Firefox;image47.png
+12312359;11;C;1;0;31;44;NaN;Firefox;image48.png
+12312360;11;D;1;1;42;14;NaN;Firefox;image49.png
+12312361;11;E;1;0;NaN;NaN;28362233J;CRM;image50.png
+12312362;12;A;1;0;123;30;NaN;Firefox;image51.png
+12312363;12;B;1;1;NaN;NaN;Registration;Firefox;image52.png
+12312364;12;C;1;0;30;42;NaN;Firefox;image53.png
+12312365;12;D;1;1;44;13;NaN;Firefox;image54.png
+12312366;12;E;1;0;NaN;NaN;28362233J;CRM;image55.png
+12312367;13;A;2;0;125;31;NaN;Firefox;image56.png
+12312368;13;B;2;1;NaN;NaN;Registration;Firefox;image57.png
+12312369;13;C;2;1;31;42;NaN;Firefox;image58.png
+12312370;13;F;2;1;46;12;Please attach your identify card;Firefox;image59.png
+12312371;14;A;2;0;121;31;NaN;Firefox;image60.png
+12312372;14;B;2;1;NaN;NaN;Registration;Firefox;image61.png
+12312373;14;C;2;0;32;42;NaN;Firefox;image62.png
+12312374;14;F;2;1;NaN;NaN;Please attach your identify card;Firefox;image63.png
+12312375;15;A;1;1;120;33;NaN;Firefox;image64.png
+12312376;15;B;1;0;NaN;NaN;Registration;Firefox;image65.png
+12312377;15;C;1;0;33;42;NaN;Firefox;image66.png
+12312378;15;D;1;1;44;14;NaN;Firefox;image67.png
+12312379;15;E;1;0;NaN;NaN;28362233J;CRM;image68.png
+12312380;16;A;1;1;124;32;NaN;Firefox;image69.png
+12312381;16;B;1;0;NaN;NaN;Registration;Firefox;image70.png
+12312382;16;C;1;0;32;44;NaN;Firefox;image71.png
+12312383;16;D;1;1;44;12;NaN;Firefox;image72.png
+12312384;16;E;1;0;NaN;NaN;28362233J;CRM;image73.png
+12312385;17;A;1;1;43;11;NaN;Firefox;image74.png
+12312386;17;B;1;1;NaN;NaN;Registration;Firefox;image75.png
+12312387;17;C;1;0;23;55;NaN;Firefox;image76.png
+12312388;17;D;1;1;44;11;NaN;Firefox;image77.png
+12312389;17;E;1;1;NaN;NaN;28362233J;CRM;image78.png
+12312390;18;A;2;0;23;55;NaN;Firefox;image79.png
+12312391;18;B;2;1;NaN;NaN;Registration;Firefox;image80.png
+12312392;18;C;2;0;45;12;NaN;Firefox;image81.png
+12312393;18;F;2;0;NaN;NaN;Please attach your identify card;Firefox;image82.png
+12312394;19;A;2;1;23;55;NaN;Firefox;image83.png
+12312395;19;B;2;0;NaN;NaN;Registration;Firefox;image84.png
+12312396;19;C;2;1;44;13;NaN;Firefox;image85.png
+12312397;19;F;2;0;NaN;NaN;Please attach your identify card;Firefox;image86.png
+12312398;20;A;2;0;23;55;NaN;Firefox;image87.png
+12312399;20;B;2;1;NaN;NaN;Registration;Firefox;image88.png
+12312400;20;C;2;0;44;11;NaN;Firefox;image89.png
+12312401;20;F;2;1;NaN;NaN;Please attach your identify card;Firefox;image90.png
+12312402;21;A;1;1;124;31;NaN;Firefox;image91.png
+12312403;21;B;1;0;NaN;NaN;Registration;Firefox;image92.png
+12312404;21;C;1;0;30;42;NaN;Firefox;image93.png
+12312405;21;D;1;1;43;12;NaN;Firefox;image94.png
+12312406;21;E;1;0;NaN;NaN;28362233J;CRM;image95.png
+12312407;22;A;1;0;121;31;NaN;Firefox;image96.png
+12312408;22;B;1;1;NaN;NaN;Registration;Firefox;image97.png
+12312409;22;C;1;0;32;44;NaN;Firefox;image98.png
+12312410;22;D;1;1;45;12;NaN;Firefox;image99.png
+12312411;22;E;1;0;NaN;NaN;28362233J;CRM;image100.png
+12312412;23;A;2;0;120;33;NaN;Firefox;image101.png
+12312413;23;B;2;1;NaN;NaN;Registration;Firefox;image102.png
+12312414;23;C;2;1;31;43;NaN;Firefox;image103.png
+12312415;23;F;2;1;44;13;Please attach your identify card;Firefox;image104.png
+12312416;24;A;2;0;122;34;NaN;Firefox;image105.png
+12312417;24;B;2;1;NaN;NaN;Registration;Firefox;image106.png
+12312418;24;C;2;0;30;44;NaN;Firefox;image107.png
+12312419;24;F;2;1;NaN;NaN;Please attach your identify card;Firefox;image108.png
