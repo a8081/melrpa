@@ -31,7 +31,7 @@ import sys
 import pickle
 import keras_ocr
 import pandas as pd
-from os.path import exists
+import os
 from featureextraction.views import get_ocr_image, detect_images_components
 
 # keras-ocr will automatically download pretrained
@@ -51,22 +51,29 @@ log = pd.read_csv(param_log_path, sep=",")
 # Extraemos los nombres de las capturas asociadas a cada fila del log
 image_names = log.loc[:,"Screenshot"].values.tolist()
 pipeline = keras_ocr.pipeline.Pipeline()
-file_exists = exists("media/images_ocr_info.txt")
+file_exists = os.path.exists(param_img_root + "images_ocr_info.txt")
 
 if file_exists:
   print("\n\nReading images OCR info from file...")
-  with open("media/images_ocr_info.txt", "rb") as fp:   # Unpickling
+  with open(param_img_root + "images_ocr_info.txt", "rb") as fp:   # Unpickling
     esquinas_texto = pickle.load(fp)
 else:
   esquinas_texto = []
   for img in image_names:
     ocr_result = get_ocr_image(pipeline,param_img_root, img)
     esquinas_texto.append(ocr_result[0])
-  with open("media/images_ocr_info.txt", "wb") as fp:   #Pickling
+  with open(param_img_root + "images_ocr_info.txt", "wb") as fp:   #Pickling
     pickle.dump(esquinas_texto, fp)
 
 print(len(esquinas_texto))
-detect_images_components(param_img_root, image_names, esquinas_texto, param_img_root+"contornos/", param_img_root+"components_npy/")
+
+path1 = param_img_root+"contornos/"
+path2 = param_img_root+"components_npy/"
+for p in [path1,path2]:
+  if not os.path.exists(p):
+    os.mkdir(p)
+
+detect_images_components(param_img_root, image_names, esquinas_texto, path1, path2)
 
 """
 RECURSOS UTILIZADOS

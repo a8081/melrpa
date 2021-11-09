@@ -13,12 +13,12 @@ from decisiondiscovery.views import flat_dataset_row
 
 param_decision_point_activity = sys.argv[1]
 param_log_path = sys.argv[2] if len(sys.argv) > 2 else "media/enriched_log_feature_extracted.csv"
-param_activity_column_name = sys.argv[3] if len(sys.argv) > 5 else "Activity"
+param_path_dataset_saved = sys.argv[3] if len(sys.argv) > 3 else "media/"
 param_variant_column_name = sys.argv[4] if len(sys.argv) > 5 else "Variant"
 param_case_column_name = sys.argv[5] if len(sys.argv) > 5 else "Case"
 param_screenshot_column_name = sys.argv[6] if len(sys.argv) > 7 else "Screenshot"
 param_timestamp_column_name = sys.argv[7] if len(sys.argv) > 7 else "Timestamp"
-param_path_dataset_saved = sys.argv[8] if len(sys.argv) > 8 else "media/"
+param_activity_column_name = sys.argv[8] if len(sys.argv) > 8 else "Activity"
 
 """
 Recorro cada fila del log:
