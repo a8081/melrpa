@@ -346,4 +346,3 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     en fases posteriores del máster.
     """
     return log_enriched
-

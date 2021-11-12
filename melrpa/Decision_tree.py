@@ -16,6 +16,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 param_preprocessed_log_path = sys.argv[1] if len(sys.argv) > 1 else "media/preprocessed_dataset.csv"
 param_path = sys.argv[2] if len(sys.argv) > 2 else "media/"
+autogeneration = sys.argv[3] if len(sys.argv) > 3 else 'normal'
 
 df = pd.read_csv(param_preprocessed_log_path,index_col=0, sep=',')
 # df.head()
@@ -111,6 +112,7 @@ with open(param_path + "decision_tree.log", "w") as fout:
 
 type(target_casted[0])
 
-img = plot_decision_tree(param_path + "decision_tree", clf_model,feature_names,target_casted)
-plt.imshow(img)
-plt.show()
+if not autogeneration=='autogeneration':
+  img = plot_decision_tree(param_path + "decision_tree", clf_model,feature_names,target_casted)
+  plt.imshow(img)
+  plt.show()
