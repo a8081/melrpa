@@ -10,7 +10,7 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 
 
 # Create your views here.
-def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity):
+def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity, actions_columns):
     """
     Con esta función convertimos el log en un dataset, de manera que aplanamos todos los registros que existan sobre un mismo caso,
     resultando una sola fila por cada caso. Para este aplanamiento solamente se tienen en cuenta los registros relativos a las actividades
@@ -47,8 +47,9 @@ def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_c
                 for c in columns:
                     headers.append(c+"_"+act)
             else:
-                row.extend(data["cases"][case][act].drop(columns_to_drop).values.tolist())
-                for c in columns:
+                new_list = [col_name for col_name in columns if col_name not in actions_columns]
+                row.extend(data["cases"][case][act].drop(columns_to_drop).drop(actions_columns).values.tolist())
+                for c in new_list:
                     headers.append(c+"_"+act)
                 break
         # Introducimos la fila con la información de todas las actividades del caso en el dataset

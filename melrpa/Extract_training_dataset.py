@@ -19,7 +19,7 @@ param_case_column_name = sys.argv[5] if len(sys.argv) > 5 else "Case"
 param_screenshot_column_name = sys.argv[6] if len(sys.argv) > 7 else "Screenshot"
 param_timestamp_column_name = sys.argv[7] if len(sys.argv) > 7 else "Timestamp"
 param_activity_column_name = sys.argv[8] if len(sys.argv) > 8 else "Activity"
-
+actions_columns = list(sys.argv[8]) if len(sys.argv) > 8 else ["Coor_X", "Coor_Y", "MorKeyb", "TextInput", "Click"]
 """
 Recorro cada fila del log:
     Por cada caso:
@@ -76,6 +76,6 @@ for c in columns_to_drop:
     columns.remove(c)
 
 # Establecemos columnas comunes y al resto de columnas se le concatena el "_" actividad
-data_flattened = flat_dataset_row(log_dict, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity)
+data_flattened = flat_dataset_row(log_dict, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity, actions_columns)
 print(data_flattened)
 data_flattened.to_csv(param_path_dataset_saved + "preprocessed_dataset.csv")
