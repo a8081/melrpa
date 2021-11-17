@@ -114,7 +114,7 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
             #print('Coord y, cuadro texto ' +str(j+1)+ str(global_y[j]))
             #print('Coord x, cuadro texto ' +str(j+1)+ str(global_x[j]))
 
-        print("\n\nNúmero cuadros de texto detectados (iteración " + str(img_index) + "): " + str(len(texto_detectado_ocr[img_index])))
+        # print("Number of text boxes detected (iteration " + str(img_index) + "): " + str(len(texto_detectado_ocr[img_index])))
 
         # Cálculo los intervalos de los cuadros de texto
         intervalo_y=[]
@@ -139,7 +139,7 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
 
         # Buscamos los contornos
         (contornos,_) = cv2.findContours(canny.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        print("\n\nNúmero de componentes GUI detectados: ", len(contornos), "\n")
+        # print("Number of GUI components detected: ", len(contornos), "\n")
 
         # y los dibujamos
         cv2.drawContours(img_copy,contornos,-1,(0,0,255), 2)
@@ -183,7 +183,7 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
                     y = min(intervalo_y[k])
                     h = max(intervalo_y[k])
                     #crop_img = img[min(intervalo_y[k]) : max(intervalo_y[k]), min(intervalo_x[k]) : max(intervalo_x[k])]
-                    print("Componente " + str(j+1) + " solapa con cuadro de texto")
+                    #print("Componente " + str(j+1) + " solapa con cuadro de texto")
             #if (solapa_y == 1 and solapa_x == 1):
             #crop_img = img[min(intervalo_y[k]) : max(intervalo_y[k]), min(intervalo_x[k]) : max(intervalo_x[k])]
             #print("Componente " + str(j+1) + " solapa con cuadro de texto")
@@ -228,14 +228,9 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
         'x0_RatingBar', 'x0_SeekBar', 'x0_Spinner', 'x0_Switch', 'x0_TextView',
         'x0_ToggleButton']
     
-    print("\n\n====== Column names =======================")
-    print(column_names)
-    print("===========================================\n\n")
-
-    #Initializing the hyperparameters
-    batch_size= 32
-    epochs=20
-    learn_rate=.001
+    # print("\n\n====== Column names =======================")
+    # print(column_names)
+    # print("===========================================\n\n")
 
     # load json and create model
     json_file = open(param_json_file_name, 'r')
@@ -271,12 +266,12 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     print("\nLog dictionary length: " + str(len(crop_imgs)))
 
     crop_images = list(crop_imgs)
-    print("Padded: (150, 150, 3)")
-    print("Cropped: (50, 50, 3)\n\n")
+    # print("Padded: (150, 150, 3)")
+    # print("Cropped: (50, 50, 3)\n\n")
     for i in range(0,len(crop_imgs)):
         aux = []
         for index, img in enumerate(crop_imgs[crop_images[i]]["content"]):
-            print("Original "+str(index)+": "+str(img.shape))
+            # print("Original "+str(index)+": "+str(img.shape))
             if img.shape[1] > 150:
                 img = img[0:img.shape[0], 0:150]
             if img.shape[0] > 150:
@@ -293,15 +288,15 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
         """    
         content_preprocessed_aux = crop_imgs[images_names[i]]["content_preprocessed"]
 
-        print("Content preprocessed length: " + str(len(crop_imgs[images_names[i]]["content_preprocessed"])))
+        # print("Content preprocessed length: " + str(len(crop_imgs[images_names[i]]["content_preprocessed"])))
         #result = loaded_model.predict_classes(np.array(content_preprocessed_aux)) # removed from tensorflow 2.6
         # for gui_component in content_preprocessed_aux:
         # print("Content preprocessed object type: " + str(type(gui_component)))
         # print("Content preprocessed component shape: " + str(gui_component.shape))
         predict_x=loaded_model.predict(np.array(content_preprocessed_aux)) 
         result=np.argmax(predict_x,axis=1)
-        print("\n\nPREDICTIONS:")
-        print(result)
+        # print("\nPREDICTIONS:")
+        # print(result)
 
         result_mapped = [column_names[x] for x in result]
         crop_imgs[images_names[i]]["result"] = result_mapped

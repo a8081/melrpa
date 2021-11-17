@@ -65,14 +65,12 @@ clf_model.fit(X_train,y_train)
 
 y_predict = clf_model.predict(X_test)
 
-
-
-print("\n\nConjunto de prueba: ")
-print(X_test)
-print("\n\nEtiquetas reales: ")
-print(y_test)
-print("\n\nPredicciones sobre el conjunto de pruebas: ")
-print(y_predict)
+# print("\nTest dataset: ")
+# print(X_test)
+# print("\nCorrect labels: ")
+# print(y_test)
+# print("\nTest dataset predictions: ")
+# print(y_predict)
 
 from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
 
