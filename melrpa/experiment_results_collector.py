@@ -29,6 +29,7 @@ for scenario in scenarios:
     param_path = orig_param_path + scenario + sep
     family_size_balance_variations = get_only_list_folders(orig_param_path)
     for n in family_size_balance_variations:
+        print("")
     # path example of decision tree specification: agosuirpa\CSV_exit\resources\version1637144717955\scenario_1\Basic_10_Imbalanced\decision_tree.log
     #     times[n] = {}
     #     for index, s in enumerate([s1,s2,s3,s4]):
