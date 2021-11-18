@@ -1,3 +1,4 @@
+
 #!C:/Users/Antonio/Documents/TFM/melrpa/melrpa/env/Scripts/python.exe
 import os
 import json
@@ -6,18 +7,35 @@ import time
 import sys
 
 sep = "/"
-version = "version1637144717955"
-scenario_size = 30
+version = "version1637231842890"
+scenario_size = True
 
-# Parametros que se pasan por consola
-orig_param_path = sys.argv[1] if len(sys.argv) > 1 else ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+"resources"+sep+version+sep+""#"..\\..\\case-study\\"
 
-prefix_scenario = "scenario_"
-scenarios = []
-for i in range(0,scenario_size+1):
-    scenarios.append("scenario_"+str(i))
-    
-family_names = ["Basic_10_Balanced", "Basic_10_Imbalanced","Basic_50_Balanced","Basic_50_Imbalanced","Basic_100_Balanced","Basic_100_Imbalanced"]#,"Basic_1000_Balanced","Basic_1000_Imbalanced"]
+def get_only_list_folders(path):
+    folders_and_files = os.listdir(path)
+    family_names = []
+    for f in folders_and_files:
+        if os.path.isdir(path+sep+f):
+            family_names.append(f)
+    return family_names
+
+if scenario_size:
+    # Parametros que se pasan por consola
+    orig_param_path = sys.argv[1] if len(sys.argv) > 1 else ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+"resources"+sep+version+sep#"..\\..\\case-study\\"
+
+    prefix_scenario = "scenario_"
+    scenarios = []
+   
+    family_names = get_only_list_folders(orig_param_path+sep+prefix_scenario+"0")
+   
+    # for i in range(0,scenario_size+1):
+    #     scenarios.append("scenario_"+str(i))
+    scenarios = get_only_list_folders(orig_param_path)
+    print("Scenarios: " + str(scenarios))
+   
+else:
+    orig_param_path = sys.argv[1] if len(sys.argv) > 1 else ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+version+sep
+    family_names = ["Basic_10_Balanced", "Basic_10_Imbalanced"]#,"Basic_50_Balanced","Basic_50_Imbalanced","Basic_100_Balanced","Basic_100_Imbalanced"]#,"Basic_1000_Balanced","Basic_1000_Imbalanced"]
 
 times = {}
 
@@ -28,7 +46,7 @@ for scenario in scenarios:
         s1 = 'python GUI_components_detection.py '+param_path+n+sep+'log.csv '+param_path+n+sep
         s2 = 'python GUI_classification.py media'+sep+'models'+sep+'model.json media'+sep+'models'+sep+'model.h5 '+param_path+n+sep+'components_npy'+sep+' '+param_path+n+sep+'log.csv '+param_path+n+sep+'enriched_log.csv'
         s3 = 'python Extract_training_dataset.py B '+param_path+n+sep+'enriched_log.csv '+param_path+n+sep
-        s4 = 'python Decision_tree.py '+param_path+n+sep+'preprocessed_dataset.csv '+param_path+n+sep+' ' + 'autogeneration'
+        s4 = 'python Decision_tree.py '+param_path+n+sep+'preprocessed_dataset.csv '+param_path+n+sep+' ' + 'autogeneration'# autogeneration mode is selected to not printing decision trees images
         for index, s in enumerate([s1,s2,s3,s4]):
             start = datetime.now().strftime("%H:%M:%S.%MS")
             times[n][index] = {"start": start}
@@ -39,13 +57,13 @@ for scenario in scenarios:
         os.makedirs(metadata_path)
     # f = open(generate_path+"log.csv", 'w',newline='')
     # writer = csv.writer(f)
-    
-    # Serializing json 
+   
+    # Serializing json
     json_object = json.dumps(times, indent = 4)
     # Writing to .json
     with open(metadata_path+"GUI_components_detection_times.json", "w") as outfile:
         outfile.write(json_object)
-    
+   
 
 
 # cada experimento una linea: csv
