@@ -9,6 +9,7 @@ import csv
 import pandas as pd 
 from basic_case_study_util import get_only_list_folders
 import re
+from datetime import datetime
 
 # Configuration data
 sep = "/"
@@ -45,6 +46,13 @@ log_column = []
 accuracy = []
 
 
+def times_duration(times_dict):
+    format = '%H:%M:%S.%fS'
+    difference = datetime.strptime(times_dict["finish"], format) - datetime.strptime(times_dict["start"], format)
+    # seconds_in_day = 24 * 60 * 60
+    # res = difference.days * seconds_in_day + difference.seconds
+    return difference.total_seconds()
+
 for scenario in scenarios:
     scenario_path = orig_param_path + scenario
     family_size_balance_variations = get_only_list_folders(scenario_path, sep)
@@ -59,10 +67,10 @@ for scenario in scenarios:
         log_size.append(metainfo[1])
         scenario_number.append(scenario.split("_")[1])
         balanced.append(1 if metainfo[2]=="Balanced" else 0) # 1 == Balanced, 0 == Imbalanced
-        detection_time.append(times[n]["0"]["start"])
-        classification_time.append(times[n]["1"]["start"])
-        flat_time.append(times[n]["2"]["start"])
-        tree_training_time.append(times[n]["3"]["start"])
+        detection_time.append(times_duration(times[n]["0"]))
+        classification_time.append(times_duration(times[n]["1"]))
+        flat_time.append(times_duration(times[n]["2"]))
+        tree_training_time.append(times_duration(times[n]["3"]))
 
         with open(scenario_path + sep + n + sep + preprocessed_log_filename, newline='') as f:
             csv_reader = csv.reader(f)
