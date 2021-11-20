@@ -15,7 +15,7 @@ def get_only_list_folders(path, sep):
             family_names.append(f)
     return family_names
 
-# "version1637144717955", "/", True, None
+# generate_case_study("version1637144717955", "/", True, None)
 def generate_case_study(version, sep, scenario_mode, p):
     if scenario_mode:
         # Parametros que se pasan por consola
@@ -33,7 +33,7 @@ def generate_case_study(version, sep, scenario_mode, p):
     
     else:
         orig_param_path = p if p else ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+version
-        family_names = ["Basic_10_Balanced", "Basic_10_Imbalanced"]#,"Basic_50_Balanced","Basic_50_Imbalanced","Basic_100_Balanced","Basic_100_Imbalanced"]#,"Basic_1000_Balanced","Basic_1000_Imbalanced"]
+        family_names = ["Basic_10_Balanced", "Basic_10_Imbalanced","Basic_50_Balanced","Basic_50_Imbalanced","Basic_100_Balanced","Basic_100_Imbalanced"]#,"Basic_1000_Balanced","Basic_1000_Imbalanced"]
 
     times = {}
 
@@ -66,3 +66,12 @@ def generate_case_study(version, sep, scenario_mode, p):
     # cada experimento una linea: csv
     # almaceno los tiempos por cada fase y por cada experimento (por cada familia hay 30)
     # ejecutar solamente los experimentos
+    
+if __name__ == '__main__':
+    # generate_case_study("version1637144717955", "/", True, None)
+    version_name = sys.argv[1] if len(sys.argv) > 1 else "experimento_1_Basic"
+    sep = sys.argv[2] if len(sys.argv) > 2 else "/"
+    scenario_mode = sys.argv[3] if len(sys.argv) > 3 else True
+    path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
+    
+    generate_case_study(version_name, sep, scenario_mode, path_to_save_experiment)
