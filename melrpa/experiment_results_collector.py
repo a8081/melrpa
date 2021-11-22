@@ -7,7 +7,7 @@ import time
 import sys
 import csv
 import pandas as pd 
-from basic_case_study_util import get_only_list_folders
+from Case_study_util import get_only_list_folders
 import re
 from datetime import datetime
 
