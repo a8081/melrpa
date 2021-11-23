@@ -67,6 +67,7 @@ def generate_case_study(version, sep, scenario_mode, p):
     # almaceno los tiempos por cada fase y por cada experimento (por cada familia hay 30)
     # ejecutar solamente los experimentos
     
+#python Case_study_util.py version1637410905864_80_20 && python Case_study_util.py version1637410907926_70_30 && python Case_study_util.py version1637410968920_60_40
 if __name__ == '__main__':
     # generate_case_study("version1637144717955", "/", True, None)
     version_name = sys.argv[1] if len(sys.argv) > 1 else "experimento_1_Basic"

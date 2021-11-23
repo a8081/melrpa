@@ -12,15 +12,20 @@ import re
 from datetime import datetime
 
 # Configuration data
+
+#"version1637634767647_30_70": "version1637634822250_40_60"
+# 1637524907108_metadata
+# 1637562073752_metadata
 sep = "/"
-version = "version1637144717955"
+version = "version1637634822250_40_60"
+times_path = "1637635231370_metadata"
 scenario_size = True
 orig_param_path =  ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+"resources"+sep+version+sep
 prefix_scenario = "scenario_"
 decision_tree_filename = "decision_tree.log"
 experiment_path = "media" + sep
 scenarios = []
-times_info_path = "media"+sep+"1637149575778_metadata"+sep
+times_info_path = "media"+sep+times_path+sep
 preprocessed_log_filename = "preprocessed_dataset.csv"
 
 # Expected results
@@ -56,7 +61,7 @@ def times_duration(times_dict):
 for scenario in scenarios:
     scenario_path = orig_param_path + scenario
     family_size_balance_variations = get_only_list_folders(scenario_path, sep)
-    json_f = open(times_info_path+scenario+sep+"GUI_components_detection_times.json")
+    json_f = open(times_info_path+scenario+"-metainfo.json")
     times = json.load(json_f)
     for n in family_size_balance_variations:
         metainfo = n.split("_")
