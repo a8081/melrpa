@@ -30,9 +30,9 @@ for c in df.columns:
   elif "TextInput" in c:
     text_cols.append(c)
 
-print("\n\nColumns to drop: ")
-print(one_hot_cols)
-print(text_cols)
+# print("\n\nColumns to drop: ")
+# print(one_hot_cols)
+# print(text_cols)
 
 # for c in one_hot_cols:
 #  df[c] = df[c].map(dict(zip(['Firefox','CRM'],[0,1])))
@@ -65,17 +65,17 @@ clf_model.fit(X_train,y_train)
 
 y_predict = clf_model.predict(X_test)
 
-# print("\nTest dataset: ")
-# print(X_test)
-# print("\nCorrect labels: ")
-# print(y_test)
-# print("\nTest dataset predictions: ")
-# print(y_predict)
+# # print("\nTest dataset: ")
+# # print(X_test)
+# # print("\nCorrect labels: ")
+# # print(y_test)
+# # print("\nTest dataset predictions: ")
+# # print(y_predict)
 
 from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
 
-print("\n\nAccuracy_score")
-print(accuracy_score(y_test,y_predict))
+# print("\n\nAccuracy_score")
+# print(accuracy_score(y_test,y_predict))
 
 target = list(df['Variant'].unique())
 feature_names = list(X.columns)
@@ -102,8 +102,8 @@ target_casted = [str(t) for t in target]
 
 from sklearn.tree import export_text
 text_representation = export_text(clf_model, feature_names=feature_names)
-print("\n\nDecision Tree Text Representation")
-print(text_representation)
+# print("\n\nDecision Tree Text Representation")
+# print(text_representation)
 
 with open(param_path + "decision_tree.log", "w") as fout:
     fout.write(text_representation)

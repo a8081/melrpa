@@ -60,8 +60,8 @@ for index, c  in enumerate(cases, start=0):
         log_dict["cases"][c] = {activity: log.loc[index,:]}
         actual_case = c
         
-# import pprint
-# pprint.pprint(log_dict)
+# import p# print
+# p# print.p# print(log_dict)
 
 # Serializing json 
 # json_object = json.dumps(log_dict, indent = 4)
@@ -77,5 +77,5 @@ for c in columns_to_drop:
 
 # Establecemos columnas comunes y al resto de columnas se le concatena el "_" actividad
 data_flattened = flat_dataset_row(log_dict, columns, param_timestamp_column_name, param_variant_column_name, columns_to_drop, param_decision_point_activity, actions_columns)
-print(data_flattened)
+# print(data_flattened)
 data_flattened.to_csv(param_path_dataset_saved + "preprocessed_dataset.csv")

@@ -36,7 +36,7 @@ quantity_difference = 1
 family_names = get_only_list_folders(orig_param_path+prefix_scenario+"0", sep)
 
 scenarios = get_only_list_folders(orig_param_path, sep)
-print("Scenarios: " + str(scenarios))
+# print("Scenarios: " + str(scenarios))
 
 
 family = []
