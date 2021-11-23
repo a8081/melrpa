@@ -3,9 +3,7 @@
 import os
 import json
 from datetime import datetime
-import time
 import sys
-import time
 import csv
 import pandas as pd 
 import re
@@ -26,9 +24,7 @@ def generate_case_study(version, sep, scenario_mode, p, experiment_name):
     if scenario_mode:
         # Parametros que se pasan por consola
         orig_param_path = p if p else ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+"resources"+sep+version#"..\\..\\case-study\\"
-
         prefix_scenario = "scenario_"
-        scenarios = []
     
         family_names = get_only_list_folders(orig_param_path+sep+prefix_scenario+"0", sep)
     
@@ -88,7 +84,6 @@ def times_duration(times_dict):
 def experiments_results_collectors(sep,version,times_path,gui_component_class,activity,quantity_difference,decision_tree_filename,experiment_path):
     # Configuration data
     orig_param_path =  ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+"resources"+sep+version+sep
-    prefix_scenario = "scenario_"
     decision_tree_filename = "decision_tree.log"
     
     scenarios = []
@@ -181,12 +176,12 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,ac
 #python Case_study_util.py version1637410905864_80_20 && python Case_study_util.py version1637410907926_70_30 && python Case_study_util.py version1637410968920_60_40
 if __name__ == '__main__':
     # generate_case_study("version1637144717955", "/", True, None)
-    version_name = sys.argv[1] if len(sys.argv) > 1 else "version1Compacta"
+    version_name = sys.argv[1] if len(sys.argv) > 1 else "version1637672113888"
     sep = sys.argv[2] if len(sys.argv) > 2 else "/"
     scenario_mode = sys.argv[3] if len(sys.argv) > 3 else True
     path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
     
-    experiment_name = "experiment_" + str(round(time.time() * 1000))
+    experiment_name = "experiment_" + version_name
     
     generate_case_study(version_name, sep, scenario_mode, path_to_save_experiment, experiment_name)
     

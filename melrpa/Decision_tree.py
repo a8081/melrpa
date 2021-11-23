@@ -102,8 +102,8 @@ target_casted = [str(t) for t in target]
 
 from sklearn.tree import export_text
 text_representation = export_text(clf_model, feature_names=feature_names)
-# print("\n\nDecision Tree Text Representation")
-# print(text_representation)
+print("\n\nDecision Tree Text Representation")
+print(text_representation)
 
 with open(param_path + "decision_tree.log", "w") as fout:
     fout.write(text_representation)

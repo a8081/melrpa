@@ -54,7 +54,7 @@ pipeline = keras_ocr.pipeline.Pipeline()
 file_exists = os.path.exists(param_img_root + "images_ocr_info.txt")
 
 if file_exists:
-  # print("\n\nReading images OCR info from file...")
+  print("\n\nReading images OCR info from file...")
   with open(param_img_root + "images_ocr_info.txt", "rb") as fp:   # Unpickling
     esquinas_texto = pickle.load(fp)
 else:
@@ -72,7 +72,7 @@ path2 = param_img_root+"components_npy/"
 for p in [path1,path2]:
   if not os.path.exists(p):
     os.mkdir(p)
-
+    
 detect_images_components(param_img_root, image_names, esquinas_texto, path1, path2)
 
 """

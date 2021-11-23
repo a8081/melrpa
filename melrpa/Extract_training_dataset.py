@@ -60,8 +60,8 @@ for index, c  in enumerate(cases, start=0):
         log_dict["cases"][c] = {activity: log.loc[index,:]}
         actual_case = c
         
-# import p# print
-# p# print.p# print(log_dict)
+# import p#print
+# pprint.pprint(log_dict)
 
 # Serializing json 
 # json_object = json.dumps(log_dict, indent = 4)
