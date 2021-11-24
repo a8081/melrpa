@@ -9,6 +9,7 @@ import pandas as pd
 import re
 from tqdm import tqdm
 from time import sleep
+from melrpa.settings import sep, agosuirpa_path
 
 
 def get_only_list_folders(path, sep):
@@ -20,22 +21,17 @@ def get_only_list_folders(path, sep):
     return family_names
 
 # generate_case_study("version1637144717955", "/", True, None)
-def generate_case_study(version, sep, scenario_mode, p, experiment_name):
-    if scenario_mode:
-        # Parametros que se pasan por consola
-        orig_param_path = p if p else ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+"resources"+sep+version#"..\\..\\case-study\\"
-        prefix_scenario = "scenario_"
-    
-        family_names = get_only_list_folders(orig_param_path+sep+prefix_scenario+"0", sep)
-    
-        # for i in range(0,scenario_size+1):
-        #     scenarios.append("scenario_"+str(i))
-        # print("Scenarios: " + str(scenarios))
-    
-    else:
-        orig_param_path = p if p else ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+version
-        family_names = ["Basic_10_Balanced", "Basic_10_Imbalanced","Basic_50_Balanced","Basic_50_Imbalanced","Basic_100_Balanced","Basic_100_Imbalanced"]#,"Basic_1000_Balanced","Basic_1000_Imbalanced"]
+def generate_case_study(version, sep, p, experiment_name):
+    # Parametros que se pasan por consola
+    orig_param_path = p if p else agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version#"..\\..\\case-study\\"
+    prefix_scenario = "scenario_"
 
+    family_names = get_only_list_folders(orig_param_path+sep+prefix_scenario+"0", sep)
+
+    # for i in range(0,scenario_size+1):
+    #     scenarios.append("scenario_"+str(i))
+    # print("Scenarios: " + str(scenarios))
+    
     scenarios = get_only_list_folders(orig_param_path, sep)
     times = {}
 
@@ -81,9 +77,10 @@ def times_duration(times_dict):
     return difference.total_seconds()
 
 
-def experiments_results_collectors(sep,version,times_path,gui_component_class,activity,quantity_difference,decision_tree_filename,experiment_path):
+def experiments_results_collectors(sep,version,times_path,gui_component_class,activity,quantity_difference,decision_tree_filename,experiment_path,drop,orig_param_path):
     # Configuration data
-    orig_param_path =  ".."+sep+".."+sep+"agosuirpa"+sep+"CSV_exit"+sep+"resources"+sep+version+sep
+    if not orig_param_path:
+        orig_param_path =  agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version+sep
     decision_tree_filename = "decision_tree.log"
     
     scenarios = []
@@ -107,10 +104,13 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,ac
     accuracy = []
 
 
-
-    for scenario in scenarios:
+    for scenario in tqdm(scenarios,
+                    desc ="Experiment results that have been processed"):
+        sleep(.1)
         scenario_path = orig_param_path + scenario
         family_size_balance_variations = get_only_list_folders(scenario_path, sep)
+        if drop and drop in family_size_balance_variations:
+            family_size_balance_variations.remove(drop)
         json_f = open(times_info_path+scenario+"-metainfo.json")
         times = json.load(json_f)
         for n in family_size_balance_variations:
@@ -176,23 +176,28 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,ac
 #python Case_study_util.py version1637410905864_80_20 && python Case_study_util.py version1637410907926_70_30 && python Case_study_util.py version1637410968920_60_40
 if __name__ == '__main__':
     # generate_case_study("version1637144717955", "/", True, None)
-    version_name = sys.argv[1] if len(sys.argv) > 1 else "version1637672113888"
-    sep = sys.argv[2] if len(sys.argv) > 2 else "/"
-    scenario_mode = sys.argv[3] if len(sys.argv) > 3 else True
+    version_name = sys.argv[1] if len(sys.argv) > 1 else "version1637695142490"
+    generate = sys.argv[2] if len(sys.argv) > 2 else False
+    experimentation = sys.argv[3] if len(sys.argv) > 3 else False
     path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
     
     experiment_name = "experiment_" + version_name
     
-    generate_case_study(version_name, sep, scenario_mode, path_to_save_experiment, experiment_name)
+    if generate:
+        generate_case_study(version_name, sep, path_to_save_experiment, experiment_name)
     
     times_path = experiment_name + "_metadata"
     prefix_scenario = "scenario_"
     decision_tree_filename = "decision_tree.log"
     experiment_path = "media" + sep
+    drop = None # ["Advanced_10_Balanced", "Advanced_10_Imbalanced"]
     
     # Expected results
     gui_component_class = "ImageView"
     activity = "B"
     quantity_difference = 1
     
-    experiments_results_collectors(sep,version_name,times_path,gui_component_class,activity,quantity_difference,decision_tree_filename,experiment_path)
+    if experimentation:
+        if path_to_save_experiment.find(sep)==-1:
+            path_to_save_experiment = path_to_save_experiment + sep
+        experiments_results_collectors(sep,version_name,times_path,gui_component_class,activity,quantity_difference,decision_tree_filename,experiment_path,drop,path_to_save_experiment)

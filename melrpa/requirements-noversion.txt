@@ -75,3 +75,4 @@ validators
 Werkzeug
 wrapt
 graphviz
+tqdm

@@ -83,3 +83,4 @@ validators==0.18.2
 wcwidth==0.2.5
 Werkzeug==2.0.1
 wrapt==1.12.1
+tqdm==4.62.1
