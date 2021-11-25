@@ -21,7 +21,7 @@ def get_only_list_folders(path, sep):
     return family_names
 
 # generate_case_study("version1637144717955", "/", True, None)
-def generate_case_study(version, sep, p, experiment_name):
+def generate_case_study(version, sep, p, experiment_name, decision_activity, scenarios):
     # Parametros que se pasan por consola
     orig_param_path = p if p else agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version#"..\\..\\case-study\\"
     prefix_scenario = "scenario_"
@@ -32,7 +32,8 @@ def generate_case_study(version, sep, p, experiment_name):
     #     scenarios.append("scenario_"+str(i))
     # print("Scenarios: " + str(scenarios))
     
-    scenarios = get_only_list_folders(orig_param_path, sep)
+    if not scenarios:
+        scenarios = get_only_list_folders(orig_param_path, sep)
     times = {}
 
     metadata_path = "media"+sep+experiment_name+"_metadata"+sep
@@ -48,7 +49,7 @@ def generate_case_study(version, sep, p, experiment_name):
             times[n] = {}
             s1 = 'python GUI_components_detection.py '+param_path+n+sep+'log.csv '+param_path+n+sep
             s2 = 'python GUI_classification.py media'+sep+'models'+sep+'model.json media'+sep+'models'+sep+'model.h5 '+param_path+n+sep+'components_npy'+sep+' '+param_path+n+sep+'log.csv '+param_path+n+sep+'enriched_log.csv'
-            s3 = 'python Extract_training_dataset.py B '+param_path+n+sep+'enriched_log.csv '+param_path+n+sep
+            s3 = 'python Extract_training_dataset.py ' + decision_activity +' '+param_path+n+sep+'enriched_log.csv '+param_path+n+sep
             s4 = 'python Decision_tree.py '+param_path+n+sep+'preprocessed_dataset.csv '+param_path+n+sep+' ' + 'autogeneration'# autogeneration mode is selected to not # printing decision trees images
             for index, s in enumerate([s1,s2,s3,s4]):
                 start = datetime.now().strftime("%H:%M:%S.%MS")
@@ -192,14 +193,16 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,qu
 #python Case_study_util.py version1637410905864_80_20 && python Case_study_util.py version1637410907926_70_30 && python Case_study_util.py version1637410968920_60_40
 if __name__ == '__main__':
     # generate_case_study("version1637144717955", "/", True, None)
-    version_name = sys.argv[1] if len(sys.argv) > 1 else "version1637695142490"
-    mode = sys.argv[2] if len(sys.argv) > 2 else "generate"
-    path_to_save_experiment = sys.argv[3] if len(sys.argv) > 3 else None
+    version_name = sys.argv[1] if len(sys.argv) > 1 else "Intermediate_PROCESSED"
+    decision_activity = sys.argv[3] if len(sys.argv) > 3 else "D"
+    mode = sys.argv[3] if len(sys.argv) > 3 else "generate"
+    scenarios = sys.argv[4] if len(sys.argv) > 4 else ["scenario_10"]
+    path_to_save_experiment = sys.argv[5] if len(sys.argv) > 5 else None
     
     experiment_name = "experiment_" + version_name
     
     if mode=="generate" or mode=="both":
-        generate_case_study(version_name, sep, path_to_save_experiment, experiment_name)
+        generate_case_study(version_name, sep, path_to_save_experiment, experiment_name, decision_activity, scenarios)
     
     times_path = experiment_name + "_metadata"
     prefix_scenario = "scenario_"
