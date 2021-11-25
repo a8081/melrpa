@@ -26,7 +26,6 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
     orig_param_path = p if p else agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version#"..\\..\\case-study\\"
     prefix_scenario = "scenario_"
 
-    family_names = get_only_list_folders(orig_param_path+sep+prefix_scenario+"0", sep)
 
     # for i in range(0,scenario_size+1):
     #     scenarios.append("scenario_"+str(i))
@@ -36,6 +35,8 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
         scenarios = get_only_list_folders(orig_param_path, sep)
     times = {}
 
+    family_names = get_only_list_folders(orig_param_path+sep+scenarios[0], sep)
+    
     metadata_path = "media"+sep+experiment_name+"_metadata"+sep
     if not os.path.exists(metadata_path):
             os.makedirs(metadata_path)
