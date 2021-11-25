@@ -30,14 +30,19 @@ def flat_dataset_row(data, columns, param_timestamp_column_name, param_variant_c
     :param_decision_point_activity: identificador de la actividad inmediatamente anterior al punto de decisión cuyo por qué se quiere descubrir
     :type param_decision_point_activity: str
     """
+    add_case = False # Set True to add case column
     df_content = []
     for case in data["cases"]:
         # print(case)
         timestamp_start = data["cases"][case]["A"].get(key=param_timestamp_column_name)
         timestamp_end = data["cases"][case][param_decision_point_activity].get(param_timestamp_column_name)
         variant = data["cases"][case]["A"].get(key=param_variant_column_name)
-        row = [variant, case, timestamp_start, timestamp_end]
-        headers = ["Variant", "Case", "Timestamp_start", "Timestamp_end"]
+        if add_case:
+            row = [variant, case, timestamp_start, timestamp_end] # ADDING CASE COLUMN
+            headers = ["Variant", "Case", "Timestamp_start", "Timestamp_end"]
+        else:
+            row = [variant, timestamp_start, timestamp_end] # WITHOUT CASE COLUMN
+            headers = ["Variant", "Timestamp_start", "Timestamp_end"]
         for act in data["cases"][case]:
             # case
             # variant_id

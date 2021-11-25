@@ -143,7 +143,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CUSTOM CONFIGURATIONS
-
+add_words_columns = True
 sep = "/"
-#agosuirpa_path = "C:" + sep + "Users" + sep + "Antonio" + sep + "Documents" + sep + "TFM" + sep + "agosuirpa" #".."+sep+".."+sep+"agosuirpa"
-agosuirpa_path = "C:" + sep + "apa" + sep + "agosuirpa" #".."+sep+".."+sep+"agosuirpa"
+agosuirpa_path = "C:" + sep + "Users" + sep + "Antonio" + sep + "Documents" + sep + "TFM" + sep + "agosuirpa" #".."+sep+".."+sep+"agosuirpa"
+# agosuirpa_path = "C:" + sep + "apa" + sep + "agosuirpa" 

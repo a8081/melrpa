@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import keras_ocr
 import cv2
 import sys
+from numpy.lib.function_base import append
 import pandas as pd
 # Classification
 import os
@@ -30,6 +31,7 @@ from tensorflow.keras.applications import VGG19 #For Transfer Learning
 from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import OneHotEncoder
 from keras.models import model_from_json
+from melrpa.settings import add_words_columns
 
 # Create your views here.
 
@@ -91,6 +93,8 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
     :path_to_save_bordered_images: ruta donde se almacenan las imágenes de cada componente con el borde resaltado
     :type path_to_save_bordered_images: str
     """
+    words = {}
+    words_columns_names = {}
     # Recorremos la lista de imágenes
     for img_index in range(0, len(image_names)):
         image_path = param_img_root + image_names[img_index]
@@ -103,12 +107,30 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
         # Cada fila es un cuadro de texto distinto, mucho más amigable que el formato que devuelve keras_ocr
         global_y = []
         global_x = []
+        words[img_index] = {}
+        res = None
+        
         for j in range(0, len(texto_detectado_ocr[img_index])):
             coordenada_y = []
             coordenada_x = []
+            
             for i in range(0,len(texto_detectado_ocr[img_index][j][1])):
                 coordenada_y.append(texto_detectado_ocr[img_index][j][1][i][1])
                 coordenada_x.append(texto_detectado_ocr[img_index][j][1][i][0])
+                
+            if add_words_columns:
+                word =  texto_detectado_ocr[img_index][j][0]
+                centroid = np.mean(coordenada_x) + ":" + np.mean(coordenada_y)
+                if word in words[img_index]:
+                    words[img_index][word] += [centroid]
+                else:
+                    words[img_index][word] = [centroid]
+                if word in words_columns_names:
+                    words_columns_names[word] += 1
+                else:
+                    words_columns_names[word] = 1
+                    
+            
             global_y.append(coordenada_y)
             global_x.append(coordenada_x)
             #print('Coord y, cuadro texto ' +str(j+1)+ str(global_y[j]))
@@ -149,6 +171,8 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
         #Llevamos a cabo los recortes para cada contorno detectado
         recortes = []
         lista_prueba=[]
+        
+        text_or_not_text = []
 
         for j in range(0,len(contornos)):
             cont_horizontal = []
@@ -193,8 +217,18 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
             if (condicion_recorte):
                 crop_img = img[y:h, x:w]
                 recortes.append(crop_img)
+                text_or_not_text.append(1)
+            else:
+                text_or_not_text.append(0)
         aux = np.array(recortes)
+        
+        np.save(path_to_save_gui_components_npy + image_names[img_index] + "_texts.npy", text_or_not_text)
         np.save(path_to_save_gui_components_npy + image_names[img_index] + ".npy", aux)
+        
+        if add_words_columns:
+            res = [words, words_columns_names]
+
+        return res
 
 # Para el caso de este ejemplo elegimos la función de Zero-padding para redimensionar las imágenes
 def pad(img, h, w):
@@ -253,11 +287,13 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
 
     images_root = param_images_root #"mockups_vector/"
     crop_imgs = {}
-    images_names = [ x + ".npy" for x in log.loc[:,"Screenshot"].values.tolist()] # os.listdir(images_root)
+    #images_names = [ x + ".npy" for x in log.loc[:,"Screenshot"].values.tolist()] # os.listdir(images_root)
+    images_names = log.loc[:,"Screenshot"].values.tolist()
     # print(images_names)
     for img_filename in images_names:
-        crop_img_aux = np.load(images_root+img_filename, allow_pickle=True)
-        crop_imgs[img_filename] = {'content': crop_img_aux}
+        crop_img_aux = np.load(images_root+img_filename+".npy", allow_pickle=True)
+        text_or_not_text = np.load(images_root+img_filename+"_texts.npy", allow_pickle=True)
+        crop_imgs[img_filename] = {'content': crop_img_aux, 'text': text_or_not_text}
 
     """
     Una vez cargadas, reducimos su tamaño para adecuarlo a la entrada de la red neuronal convolucional producto de este
@@ -270,7 +306,8 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     # print("Cropped: (50, 50, 3)\n\n")
     for i in range(0,len(crop_imgs)):
         aux = []
-        for index, img in enumerate(crop_imgs[crop_images[i]]["content"]):
+        for img in crop_imgs[crop_images[i]]["content"]:
+        #for index, img in enumerate(crop_imgs[crop_images[i]]["content"]):
             # print("Original "+str(index)+": "+str(img.shape))
             if img.shape[1] > 150:
                 img = img[0:img.shape[0], 0:150]
@@ -298,7 +335,8 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
         # print("\nPREDICTIONS:")
         # print(result)
 
-        result_mapped = [column_names[x] for x in result]
+        result_mapped = [column_names[x] if crop_imgs[crop_images[i]]["text"][index] else "x0_TextView" for index, x in enumerate(result)]
+        
         crop_imgs[images_names[i]]["result"] = result_mapped
         crop_imgs[images_names[i]]["result_freq"] = pd.Series(result_mapped).value_counts()
         crop_imgs[images_names[i]]["result_freq_df"] = crop_imgs[images_names[i]]["result_freq"].to_frame().T

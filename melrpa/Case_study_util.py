@@ -194,11 +194,12 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,qu
 #python Case_study_util.py version1637410905864_80_20 && python Case_study_util.py version1637410907926_70_30 && python Case_study_util.py version1637410968920_60_40
 if __name__ == '__main__':
     # generate_case_study("version1637144717955", "/", True, None)
-    version_name = sys.argv[1] if len(sys.argv) > 1 else "Intermediate_PROCESSED"
-    decision_activity = sys.argv[3] if len(sys.argv) > 3 else "D"
-    mode = sys.argv[3] if len(sys.argv) > 3 else "generate"
-    scenarios = sys.argv[4] if len(sys.argv) > 4 else ["scenario_10"]
-    path_to_save_experiment = sys.argv[5] if len(sys.argv) > 5 else None
+    version_name = sys.argv[1] if len(sys.argv) > 1 else "Intermediate1637764151674"
+    decision_activity = sys.argv[2] if len(sys.argv) > 2 else "D"
+    mode = sys.argv[3] if len(sys.argv) > 3 else "both"
+    path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
+    
+    scenarios = ["scenario_1"] # Set as "None" to automatic detect scenarios
     
     experiment_name = "experiment_" + version_name
     
@@ -211,8 +212,7 @@ if __name__ == '__main__':
     experiment_path = "media" + sep
     drop = None # ["Advanced_10_Balanced", "Advanced_10_Imbalanced"]
     
-    # Expected results
-    
+    # ## Expected results ##
     # It is necessary to specify first the name of the GUI component and next the activity where iit takes place
     # In case of other column, you must specify only its name: for example ["Case"]
     gui_component_class = [ ["ImageView","D"]]
