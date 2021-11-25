@@ -214,7 +214,7 @@ if __name__ == '__main__':
     
     # It is necessary to specify first the name of the GUI component and next the activity where iit takes place
     # In case of other column, you must specify only its name: for example ["Case"]
-    gui_component_class = [["Case"], ["Coor_Y","A"]]
+    gui_component_class = [ ["ImageView","D"]]
     quantity_difference = 1
     
     if mode=="experiment" or mode=="both":
