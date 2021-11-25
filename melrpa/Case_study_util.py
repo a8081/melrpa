@@ -77,7 +77,43 @@ def times_duration(times_dict):
     return difference.total_seconds()
 
 
-def experiments_results_collectors(sep,version,times_path,gui_component_class,activity,quantity_difference,decision_tree_filename,experiment_path,drop,orig_param_path):
+def calculate_accuracy_per_tree(decision_tree_path,levels,quantity_difference):
+    f = open(decision_tree_path,"r").read()
+    res = 1
+    
+    if not isinstance(levels, list):
+        levels = [levels]
+    
+    for gui_component_class in levels:
+        if len(gui_component_class)==1:
+            gui_component_name_to_find = gui_component_class[0]
+        else:
+            gui_component_name_to_find = gui_component_class[0]+"_"+gui_component_class[1]
+        position = f.find(gui_component_name_to_find)
+        if position != -1:
+            positions = [m.start() for m in re.finditer(gui_component_name_to_find, f)]
+            if len(positions) == 2:
+                res_aux = {}
+                for index, position_i in enumerate(positions):
+                    position_aux = position_i + len(gui_component_name_to_find)
+                    s = f[position_aux:]
+                    end_position = s.find("\n")
+                    quantity = f[position_aux:position_aux+end_position]
+                    for c in '<>= ':
+                        quantity = quantity.replace(c, '')
+                        res_aux[index] = quantity
+                if float(res_aux[0])-float(res_aux[1]) > quantity_difference:
+                    print("GUI component quantity difference greater than the expected")
+                    res *= 0
+            else:
+                print("GUI component appears more than twice")
+                res *= 0
+        else:
+            print("GUI component " + gui_component_name_to_find +" not found")
+            res *= 0
+    return res
+
+def experiments_results_collectors(sep,version,times_path,gui_component_class,quantity_difference,decision_tree_filename,experiment_path,drop,orig_param_path):
     # Configuration data
     if not orig_param_path:
         orig_param_path =  agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version+sep
@@ -133,27 +169,7 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,ac
             log_column.append(len(csv_headings))
             
             # Calculate level of accuracy
-            f = open(decision_tree_path,"r").read()
-            position = f.find(gui_component_class+"_"+activity)
-            if position != -1:
-                positions = [m.start() for m in re.finditer(gui_component_class+"_"+activity, f)]
-                if len(positions) == 2:
-                    res_aux = {}
-                    for index, position_i in enumerate(positions):
-                        position_aux = position_i + len(gui_component_class+"_"+activity)
-                        s = f[position_aux:]
-                        end_position = s.find("\n")
-                        quantity = f[position_aux:position_aux+end_position]
-                        for c in '<>= ':
-                            quantity = quantity.replace(c, '')
-                            res_aux[index] = quantity
-                    if float(res_aux[0])-float(res_aux[1]) < quantity_difference:
-                        res = 1
-                else:
-                    res = 0
-            else:
-                res = 0
-            accuracy.append(res)
+            accuracy.append(calculate_accuracy_per_tree(decision_tree_path,gui_component_class,quantity_difference))
 
     dict_results = {
         'family': family,
@@ -177,13 +193,12 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,ac
 if __name__ == '__main__':
     # generate_case_study("version1637144717955", "/", True, None)
     version_name = sys.argv[1] if len(sys.argv) > 1 else "version1637695142490"
-    generate = sys.argv[2] if len(sys.argv) > 2 else False
-    experimentation = sys.argv[3] if len(sys.argv) > 3 else False
-    path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
+    mode = sys.argv[2] if len(sys.argv) > 2 else "generate"
+    path_to_save_experiment = sys.argv[3] if len(sys.argv) > 3 else None
     
     experiment_name = "experiment_" + version_name
     
-    if generate:
+    if mode=="generate" or mode=="both":
         generate_case_study(version_name, sep, path_to_save_experiment, experiment_name)
     
     times_path = experiment_name + "_metadata"
@@ -193,11 +208,13 @@ if __name__ == '__main__':
     drop = None # ["Advanced_10_Balanced", "Advanced_10_Imbalanced"]
     
     # Expected results
-    gui_component_class = "ImageView"
-    activity = "B"
+    
+    # It is necessary to specify first the name of the GUI component and next the activity where iit takes place
+    # In case of other column, you must specify only its name: for example ["Case"]
+    gui_component_class = [["Case"], ["Coor_Y","A"]]
     quantity_difference = 1
     
-    if experimentation:
-        if path_to_save_experiment.find(sep)==-1:
+    if mode=="experiment" or mode=="both":
+        if path_to_save_experiment and path_to_save_experiment.find(sep)==-1:
             path_to_save_experiment = path_to_save_experiment + sep
-        experiments_results_collectors(sep,version_name,times_path,gui_component_class,activity,quantity_difference,decision_tree_filename,experiment_path,drop,path_to_save_experiment)
+        experiments_results_collectors(sep,version_name,times_path,gui_component_class,quantity_difference,decision_tree_filename,experiment_path,drop,path_to_save_experiment)
