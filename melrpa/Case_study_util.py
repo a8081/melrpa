@@ -9,7 +9,7 @@ import pandas as pd
 import re
 from tqdm import tqdm
 from time import sleep
-from melrpa.settings import sep, agosuirpa_path
+from melrpa.settings import sep, agosuirpa_path, scenarios_subset
 
 
 def get_only_list_folders(path, sep):
@@ -199,12 +199,10 @@ if __name__ == '__main__':
     mode = sys.argv[3] if len(sys.argv) > 3 else "both"
     path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
     
-    scenarios = ["scenario_1"] # Set as "None" to automatic detect scenarios
-    
     experiment_name = "experiment_" + version_name
     
     if mode=="generate" or mode=="both":
-        generate_case_study(version_name, sep, path_to_save_experiment, experiment_name, decision_activity, scenarios)
+        generate_case_study(version_name, sep, path_to_save_experiment, experiment_name, decision_activity, scenarios_subset)
     
     times_path = experiment_name + "_metadata"
     prefix_scenario = "scenario_"

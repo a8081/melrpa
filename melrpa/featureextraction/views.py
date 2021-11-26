@@ -120,11 +120,12 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
                 
             if add_words_columns:
                 word =  texto_detectado_ocr[img_index][j][0]
-                centroid = np.mean(coordenada_x) + ":" + np.mean(coordenada_y)
+                centroid = (np.mean(coordenada_x), np.mean(coordenada_y))
                 if word in words[img_index]:
                     words[img_index][word] += [centroid]
                 else:
                     words[img_index][word] = [centroid]
+                
                 if word in words_columns_names:
                     words_columns_names[word] += 1
                 else:
@@ -228,7 +229,7 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
         if add_words_columns:
             res = [words, words_columns_names]
 
-        return res
+    return res
 
 # Para el caso de este ejemplo elegimos la función de Zero-padding para redimensionar las imágenes
 def pad(img, h, w):
@@ -379,3 +380,35 @@ def classify_image_components(param_json_file_name, param_model_weights, param_i
     en fases posteriores del máster.
     """
     return log_enriched
+
+def storage_text_info_as_dataset(words, image_names, log, param_img_root):
+    headers = []
+    for w in words[1]:
+        if words[1][w] == 1:
+            headers.append(w)
+        else:
+            [headers.append(w+"_"+str(i)) for i in range(1, words[1][w]+1)]
+    initial_row = ["NaN"]*len(headers)
+    
+    df = pd.DataFrame([], columns=headers)
+    words = words[0]
+    
+    for j in range(0,len(image_names)):
+        for w in words[j]:
+            centroid_ls = list(words[j][w])
+            if len(centroid_ls)==1:
+                if w in headers:
+                    pos = headers.index(w)
+                else:
+                    pos = headers.index(w+"_1")
+                    initial_row[pos] = centroid_ls[0]
+            else:
+                ac = 0
+                for index, h in enumerate(headers):
+                    if len(centroid_ls)>ac and (str(w) in h):
+                        initial_row[index] = centroid_ls[ac]
+                        ac+=1
+        df.loc[j] = initial_row
+
+    log_enriched = log.join(df).fillna(method='ffill')
+    log_enriched.to_csv(param_img_root+"text_colums.csv")

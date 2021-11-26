@@ -32,7 +32,8 @@ import pickle
 import keras_ocr
 import pandas as pd
 import os
-from featureextraction.views import get_ocr_image, detect_images_components
+from featureextraction.views import get_ocr_image, detect_images_components, storage_text_info_as_dataset
+from melrpa.settings import add_words_columns
 
 # keras-ocr will automatically download pretrained
 # weights for the detector and recognizer.
@@ -75,34 +76,9 @@ for p in [path1,path2]:
     
 words = detect_images_components(param_img_root, image_names, esquinas_texto, path1, path2)
 
-if words:
-  headers = []
-  for w in words[1]:
-    if words[1][w] == 1:
-      headers.append(w)
-    else:
-      [headers.append(w+"_"+i) for i in range(1, words[1][w]+1)]
 
-  initial_row = ["NaN"]*len(headers)
-  
-  df = pd.DataFrame([], columns=headers)
-  
-  for j in range(0,9):
-    for w in words[j][0]:
-      ls = []
-      if len(words[j][w])==1:
-        pos = headers.find(w)
-        initial_row[pos] = words[j][w][0]
-      else:
-        ac = 0
-        for index, h in enumerate(headers):
-          if w in h:
-            initial_row[index] = words[j][w][ac]
-            ac+=1
-            
-      df.loc[j] = initial_row
-
-    log_enriched = log.join(df).fillna(method='ffill')
+if add_words_columns and words:
+  storage_text_info_as_dataset(words, image_names, log, param_img_root)
 
 """
 RECURSOS UTILIZADOS
