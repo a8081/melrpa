@@ -1,15 +1,14 @@
-
-#!C:/Users/Antonio/Documents/TFM/melrpa/melrpa/env/Scripts/python.exe
 import os
 import json
 from datetime import datetime
-import sys
 import csv
-import pandas as pd 
+import pandas as pd
 import re
 from tqdm import tqdm
 from time import sleep
+from decisiondiscovery.views import decision_tree_training, extract_training_dataset
 from melrpa.settings import sep, agosuirpa_path, scenarios_subset
+from featureextraction.views import gui_components_detection, classify_image_components
 
 
 def get_only_list_folders(path, sep):
@@ -21,48 +20,66 @@ def get_only_list_folders(path, sep):
     return family_names
 
 # generate_case_study("version1637144717955", "/", True, None)
+
+
+def time_function_execution(times_dict, family, index, function_string, args):
+    start = datetime.now().strftime("%H:%M:%S.%MS")
+    times_dict[family][index] = {"start": start}
+    eval(function_string)(*args)
+    times_dict[family][index]["finish"] = datetime.now().strftime(
+        "%H:%M:%S.%MS")
+    return times_dict
+
+
 def generate_case_study(version, sep, p, experiment_name, decision_activity, scenarios):
     # Parametros que se pasan por consola
-    orig_param_path = p if p else agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version#"..\\..\\case-study\\"
-    prefix_scenario = "scenario_"
+    orig_param_path = p if p else agosuirpa_path+sep+"CSV_exit" + \
+        sep+"resources"+sep+version  # "..\\..\\case-study\\"
 
-
+    # prefix_scenario = "scenario_"
     # for i in range(0,scenario_size+1):
     #     scenarios.append("scenario_"+str(i))
     # print("Scenarios: " + str(scenarios))
-    
+
     if not scenarios:
         scenarios = get_only_list_folders(orig_param_path, sep)
     times = {}
 
     family_names = get_only_list_folders(orig_param_path+sep+scenarios[0], sep)
-    
+
     metadata_path = "media"+sep+experiment_name+"_metadata"+sep
     if not os.path.exists(metadata_path):
-            os.makedirs(metadata_path)
-            
+        os.makedirs(metadata_path)
+
     for scenario in tqdm(scenarios,
-                desc ="Scenarios that have been processed"):
+                         desc="Scenarios that have been processed"):
         sleep(.1)
-        
+
         param_path = orig_param_path + sep + scenario + sep
         for n in family_names:
             times[n] = {}
-            s1 = 'python GUI_components_detection.py '+param_path+n+sep+'log.csv '+param_path+n+sep
-            s2 = 'python GUI_classification.py media'+sep+'models'+sep+'model.json media'+sep+'models'+sep+'model.h5 '+param_path+n+sep+'components_npy'+sep+' '+param_path+n+sep+'log.csv '+param_path+n+sep+'enriched_log.csv'
-            s3 = 'python Extract_training_dataset.py ' + decision_activity +' '+param_path+n+sep+'enriched_log.csv '+param_path+n+sep
-            s4 = 'python Decision_tree.py '+param_path+n+sep+'preprocessed_dataset.csv '+param_path+n+sep+' ' + 'autogeneration'# autogeneration mode is selected to not # printing decision trees images
-            for index, s in enumerate([s1,s2,s3,s4]):
-                start = datetime.now().strftime("%H:%M:%S.%MS")
-                times[n][index] = {"start": start}
-                os.system(s)
-                times[n][index]["finish"] = datetime.now().strftime("%H:%M:%S.%MS")
-        
+
+            to_exec = ['gui_components_detection',
+                       'classify_image_components',
+                       'extract_training_dataset',
+                       # autogeneration mode is selected to not # printing decision trees images
+                       'decision_tree_training'
+                       ]
+            to_exec_args = [(param_path+n+sep+'log.csv', param_path+n+sep),
+                            ('media'+sep+'models'+sep+'model.json', 'media'+sep+'models'+sep+'model.h5', param_path+n +
+                             sep+'components_npy'+sep, param_path+n+sep + 'log.csv', param_path+n+sep+'enriched_log.csv'),
+                            (decision_activity, param_path + n+sep +
+                             'enriched_log.csv', param_path+n+sep),
+                            (param_path+n+sep + 'preprocessed_dataset.csv', param_path+n+sep, 'autogeneration')]
+            for index, function_to_exec in enumerate(to_exec):
+                time_function_execution(
+                    times, n, index, function_to_exec, to_exec_args[index])
+
         # if not os.path.exists(scenario+sep):
         #     os.makedirs(scenario+sep)
-    
+
         # Serializing json
-        json_object = json.dumps(times, indent = 4)
+        json_object = json.dumps(times, indent=4)
         # Writing to .json
         with open(metadata_path+scenario+"-metainfo.json", "w") as outfile:
             outfile.write(json_object)
@@ -73,27 +90,30 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
 
 def times_duration(times_dict):
     format = '%H:%M:%S.%fS'
-    difference = datetime.strptime(times_dict["finish"], format) - datetime.strptime(times_dict["start"], format)
+    difference = datetime.strptime(
+        times_dict["finish"], format) - datetime.strptime(times_dict["start"], format)
     # seconds_in_day = 24 * 60 * 60
     # res = difference.days * seconds_in_day + difference.seconds
     return difference.total_seconds()
 
 
-def calculate_accuracy_per_tree(decision_tree_path,levels,quantity_difference):
-    f = open(decision_tree_path,"r").read()
+def calculate_accuracy_per_tree(decision_tree_path, levels, quantity_difference):
+    f = open(decision_tree_path, "r").read()
     res = 1
-    
+
     if not isinstance(levels, list):
         levels = [levels]
-    
+
     for gui_component_class in levels:
-        if len(gui_component_class)==1:
+        if len(gui_component_class) == 1:
             gui_component_name_to_find = gui_component_class[0]
         else:
-            gui_component_name_to_find = gui_component_class[0]+"_"+gui_component_class[1]
+            gui_component_name_to_find = gui_component_class[0] + \
+                "_"+gui_component_class[1]
         position = f.find(gui_component_name_to_find)
         if position != -1:
-            positions = [m.start() for m in re.finditer(gui_component_name_to_find, f)]
+            positions = [m.start()
+                         for m in re.finditer(gui_component_name_to_find, f)]
             if len(positions) == 2:
                 res_aux = {}
                 for index, position_i in enumerate(positions):
@@ -111,24 +131,23 @@ def calculate_accuracy_per_tree(decision_tree_path,levels,quantity_difference):
                 print("GUI component appears more than twice")
                 res *= 0
         else:
-            print("GUI component " + gui_component_name_to_find +" not found")
+            print("GUI component " + gui_component_name_to_find + " not found")
             res *= 0
     return res
 
-def experiments_results_collectors(sep,version,times_path,gui_component_class,quantity_difference,decision_tree_filename,experiment_path,drop,orig_param_path):
+
+def experiments_results_collectors(sep, version, times_path, gui_component_class, quantity_difference, decision_tree_filename, experiment_path, drop, orig_param_path, experiment_name):
     # Configuration data
     if not orig_param_path:
-        orig_param_path =  agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version+sep
+        orig_param_path = agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version+sep
     decision_tree_filename = "decision_tree.log"
-    
+
     scenarios = []
     times_info_path = "media"+sep+times_path+sep
     preprocessed_log_filename = "preprocessed_dataset.csv"
 
-
     scenarios = get_only_list_folders(orig_param_path, sep)
     # print("Scenarios: " + str(scenarios))
-
 
     family = []
     balanced = []
@@ -141,12 +160,12 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,qu
     log_column = []
     accuracy = []
 
-
     for scenario in tqdm(scenarios,
-                    desc ="Experiment results that have been processed"):
+                         desc="Experiment results that have been processed"):
         sleep(.1)
         scenario_path = orig_param_path + scenario
-        family_size_balance_variations = get_only_list_folders(scenario_path, sep)
+        family_size_balance_variations = get_only_list_folders(
+            scenario_path, sep)
         if drop and drop in family_size_balance_variations:
             family_size_balance_variations.remove(drop)
         json_f = open(times_info_path+scenario+"-metainfo.json")
@@ -155,11 +174,12 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,qu
             metainfo = n.split("_")
             # path example of decision tree specification: agosuirpa\CSV_exit\resources\version1637144717955\scenario_1\Basic_10_Imbalanced\decision_tree.log
             decision_tree_path = scenario_path + sep + n + sep + decision_tree_filename
-            
+
             family.append(metainfo[0])
             log_size.append(metainfo[1])
             scenario_number.append(scenario.split("_")[1])
-            balanced.append(1 if metainfo[2]=="Balanced" else 0) # 1 == Balanced, 0 == Imbalanced
+            # 1 == Balanced, 0 == Imbalanced
+            balanced.append(1 if metainfo[2] == "Balanced" else 0)
             detection_time.append(times_duration(times[n]["0"]))
             classification_time.append(times_duration(times[n]["1"]))
             flat_time.append(times_duration(times[n]["2"]))
@@ -169,9 +189,10 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,qu
                 csv_reader = csv.reader(f)
                 csv_headings = next(csv_reader)
             log_column.append(len(csv_headings))
-            
+
             # Calculate level of accuracy
-            accuracy.append(calculate_accuracy_per_tree(decision_tree_path,gui_component_class,quantity_difference))
+            accuracy.append(calculate_accuracy_per_tree(
+                decision_tree_path, gui_component_class, quantity_difference))
 
     dict_results = {
         'family': family,
@@ -185,38 +206,7 @@ def experiments_results_collectors(sep,version,times_path,gui_component_class,qu
         'log_column': log_column,
         'accuracy': accuracy
     }
-        
+
     df = pd.DataFrame(dict_results)
     df.to_csv(experiment_path+experiment_name+"_results" + ".csv")
     return experiment_path+experiment_name+"_results" + ".csv"
-    
-    
-#python Case_study_util.py version1637410905864_80_20 && python Case_study_util.py version1637410907926_70_30 && python Case_study_util.py version1637410968920_60_40
-if __name__ == '__main__':
-    # generate_case_study("version1637144717955", "/", True, None)
-    version_name = sys.argv[1] if len(sys.argv) > 1 else "Intermediate1637764151674"
-    decision_activity = sys.argv[2] if len(sys.argv) > 2 else "D"
-    mode = sys.argv[3] if len(sys.argv) > 3 else "both"
-    path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
-    
-    experiment_name = "experiment_" + version_name
-    
-    if mode=="generate" or mode=="both":
-        generate_case_study(version_name, sep, path_to_save_experiment, experiment_name, decision_activity, scenarios_subset)
-    
-    times_path = experiment_name + "_metadata"
-    prefix_scenario = "scenario_"
-    decision_tree_filename = "decision_tree.log"
-    experiment_path = "media" + sep
-    drop = None # ["Advanced_10_Balanced", "Advanced_10_Imbalanced"]
-    
-    # ## Expected results ##
-    # It is necessary to specify first the name of the GUI component and next the activity where iit takes place
-    # In case of other column, you must specify only its name: for example ["Case"]
-    gui_component_class = [ ["ImageView","D"]]
-    quantity_difference = 1
-    
-    if mode=="experiment" or mode=="both":
-        if path_to_save_experiment and path_to_save_experiment.find(sep)==-1:
-            path_to_save_experiment = path_to_save_experiment + sep
-        experiments_results_collectors(sep,version_name,times_path,gui_component_class,quantity_difference,decision_tree_filename,experiment_path,drop,path_to_save_experiment)
