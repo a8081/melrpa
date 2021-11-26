@@ -496,20 +496,20 @@ def gui_components_detection(param_log_path="media/log.csv", param_img_root="med
 ############# Utils ############
 ################################
 
-def check_npy_components_of_capture(image_name="1.png.npy",image_path="media/screenshots/components_npy/", interactive=False):
+def check_npy_components_of_capture(image_name="1.png.npy", image_path="media/screenshots/components_npy/", interactive=False):
     if interactive:
         image_path = input("Enter path to images numpy arrays location: ")
         image_name = input("Enter numpy array file name: ")
     recortes = np.load(image_path+image_name, allow_pickle=True)
-    for i in range(0,len(recortes)):
+    for i in range(0, len(recortes)):
         print("Length: " + str(len(recortes)))
         if recortes[i].any():
-            print("\nComponent: ",i+1)
+            print("\nComponent: ", i+1)
             plt.imshow(recortes[i], interpolation='nearest')
             plt.show()
         else:
             print("Empty component")
     if interactive:
-        image_path = input("Do you want to check another image components? Indicate another npy file name: ")
+        image_path = input(
+            "Do you want to check another image components? Indicate another npy file name: ")
         check_npy_components_of_capture(image_path, None, True)
-    

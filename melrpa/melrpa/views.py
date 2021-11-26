@@ -19,18 +19,6 @@ def get_only_list_folders(path, sep):
             family_names.append(f)
     return family_names
 
-# generate_case_study("version1637144717955", "/", True, None)
-
-
-def time_function_execution(times_dict, family, index, function_string, args):
-    start = datetime.now().strftime("%H:%M:%S.%MS")
-    times_dict[family][index] = {"start": start}
-    eval(function_string)(*args)
-    times_dict[family][index]["finish"] = datetime.now().strftime(
-        "%H:%M:%S.%MS")
-    return times_dict
-
-
 def generate_case_study(version, sep, p, experiment_name, decision_activity, scenarios):
     # Parametros que se pasan por consola
     orig_param_path = p if p else agosuirpa_path+sep+"CSV_exit" + \
@@ -62,7 +50,6 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
             to_exec = ['gui_components_detection',
                        'classify_image_components',
                        'extract_training_dataset',
-                       # autogeneration mode is selected to not # printing decision trees images
                        'decision_tree_training'
                        ]
             to_exec_args = [(param_path+n+sep+'log.csv', param_path+n+sep),
@@ -72,8 +59,13 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
                              'enriched_log.csv', param_path+n+sep),
                             (param_path+n+sep + 'preprocessed_dataset.csv', param_path+n+sep, 'autogeneration')]
             for index, function_to_exec in enumerate(to_exec):
-                time_function_execution(
-                    times, n, index, function_to_exec, to_exec_args[index])
+                start = datetime.now().strftime("%H:%M:%S.%MS")
+                times[n][index] = {"start": start}
+                output = eval(function_to_exec)(*to_exec_args[index])
+                times[n][index]["finish"] = datetime.now().strftime(
+                    "%H:%M:%S.%MS")
+                if index == len(to_exec)-1:
+                    times[n][index]["decision_model_accuracy"] = output
 
         # if not os.path.exists(scenario+sep):
         #     os.makedirs(scenario+sep)
@@ -157,6 +149,7 @@ def experiments_results_collectors(sep, version, times_path, gui_component_class
     classification_time = []
     flat_time = []
     tree_training_time = []
+    tree_training_accuracy = []
     log_column = []
     accuracy = []
 
@@ -184,6 +177,7 @@ def experiments_results_collectors(sep, version, times_path, gui_component_class
             classification_time.append(times_duration(times[n]["1"]))
             flat_time.append(times_duration(times[n]["2"]))
             tree_training_time.append(times_duration(times[n]["3"]))
+            tree_training_accuracy.append(times[n]["3"]["decision_model_accuracy"])
 
             with open(scenario_path + sep + n + sep + preprocessed_log_filename, newline='') as f:
                 csv_reader = csv.reader(f)
@@ -203,6 +197,7 @@ def experiments_results_collectors(sep, version, times_path, gui_component_class
         'classification_time': classification_time,
         'flat_time': flat_time,
         'tree_training_time': tree_training_time,
+        'tree_training_accuracy': tree_training_accuracy,
         'log_column': log_column,
         'accuracy': accuracy
     }
