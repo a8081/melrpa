@@ -197,12 +197,12 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
             for k in range(0, len(intervalo_y)):
                 solapa_y = 0
                 solapa_x = 0
-                y_min = min(intervalo_y[k])
-                y_max = max(intervalo_y[k])
-                x_min = min(intervalo_x[k])
-                x_max = max(intervalo_x[k])
-                solapa_y = (y_min-threshold <= y <= y_max+threshold) or (y_min-threshold <= h <= y_max+threshold)
-                solapa_x = (x_min-threshold <= x <= x_max+threshold) or (x_min-threshold <= w <= x_max+threshold)
+                y_min = min(intervalo_y[k])-threshold
+                y_max = max(intervalo_y[k])+threshold
+                x_min = min(intervalo_x[k])-threshold
+                x_max = max(intervalo_x[k])+threshold
+                solapa_y = (y_min <= y <= y_max) or (y_min <= h <= y_max) #and max([y-y_min, y_max-y, h-y_min, y_max-h])<=surrounding_max_diff
+                solapa_x = (x_min <= x <= x_max) or (x_min <= w <= x_max) #and max([x-x_min, x_max-x, w-x_min, x_max-w])<=surrounding_max_diff
                 if (solapa_y and solapa_x):
                     if (lista_para_no_recortar_dos_veces_mismo_gui.count(k) == 0):
                         lista_para_no_recortar_dos_veces_mismo_gui.append(k)
