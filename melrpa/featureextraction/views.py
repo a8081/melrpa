@@ -172,7 +172,7 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
 
         # Llevamos a cabo los recortes para cada contorno detectado
         recortes = []
-        lista_prueba = []
+        lista_para_no_recortar_dos_veces_mismo_gui = []
 
         text_or_not_text = []
 
@@ -192,22 +192,27 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
 
             # Comprobamos que los contornos no solapen con cuadros de texto y optamos por recortar los cuadros de texto si solapan.
             condicion_recorte = True
+            no_solapa = 1
             for k in range(0, len(intervalo_y)):
                 solapa_y = 0
                 solapa_x = 0
-                if (min(intervalo_y[k]) <= y <= max(intervalo_y[k])) or (min(intervalo_y[k]) <= h <= max(intervalo_y[k])):
-                    solapa_y = 1
-                if (min(intervalo_x[k]) <= x <= max(intervalo_x[k])) or (min(intervalo_x[k]) <= w <= max(intervalo_x[k])):
-                    solapa_x = 1
-                if ((solapa_y == 1) and (solapa_x == 1)):
-                    if (lista_prueba.count(k) == 0):
-                        lista_prueba.append(k)
+                y_min = min(intervalo_y[k])
+                y_max = max(intervalo_y[k])
+                x_min = min(intervalo_x[k])
+                x_max = max(intervalo_x[k])
+                solapa_y = (y_min <= y <= y_max) or (y_min <= h <= y_max)
+                solapa_x = (x_min <= x <= x_max) or (x_min <= w <= x_max)
+                if (solapa_y and solapa_x):
+                    if (lista_para_no_recortar_dos_veces_mismo_gui.count(k) == 0):
+                        lista_para_no_recortar_dos_veces_mismo_gui.append(k)
                     else:
+                        # print("Text inside GUI component " + str(k) + " twice")
                         condicion_recorte = False
                     x = min(intervalo_x[k])
                     w = max(intervalo_x[k])
                     y = min(intervalo_y[k])
                     h = max(intervalo_y[k])
+                    no_solapa *= 0
                     #crop_img = img[min(intervalo_y[k]) : max(intervalo_y[k]), min(intervalo_x[k]) : max(intervalo_x[k])]
                     #print("Componente " + str(j+1) + " solapa con cuadro de texto")
             # if (solapa_y == 1 and solapa_x == 1):
@@ -219,9 +224,7 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
             if (condicion_recorte):
                 crop_img = img[y:h, x:w]
                 recortes.append(crop_img)
-                text_or_not_text.append(1)
-            else:
-                text_or_not_text.append(0)
+                text_or_not_text.append(abs(no_solapa-1))
         aux = np.array(recortes)
 
         np.save(path_to_save_gui_components_npy +
@@ -346,8 +349,7 @@ def classify_image_components(param_json_file_name="media/models/model.json", pa
         # print("\nPREDICTIONS:")
         # print(result)
 
-        result_mapped = [column_names[x] if crop_imgs[crop_images[i]]["text"]
-                         [index] else "x0_TextView" for index, x in enumerate(result)]
+        result_mapped = [column_names[x] if crop_imgs[crop_images[i]]["text"][index] else "x0_TextView" for index, x in enumerate(result)]
 
         crop_imgs[images_names[i]]["result"] = result_mapped
         crop_imgs[images_names[i]]["result_freq"] = pd.Series(
