@@ -349,7 +349,7 @@ def classify_image_components(param_json_file_name="media/models/model.json", pa
         # print("\nPREDICTIONS:")
         # print(result)
 
-        result_mapped = [column_names[x] if crop_imgs[crop_images[i]]["text"][index] else "x0_TextView" for index, x in enumerate(result)]
+        result_mapped = ["x0_TextView" if crop_imgs[crop_images[i]]["text"][index] else column_names[x] for index, x in enumerate(result)]
 
         crop_imgs[images_names[i]]["result"] = result_mapped
         crop_imgs[images_names[i]]["result_freq"] = pd.Series(
