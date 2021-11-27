@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from keras.models import model_from_json
+from melrpa.settings import threshold
 import pickle
 # import sys
 # from numpy.lib.function_base import append
@@ -200,8 +201,8 @@ def detect_images_components(param_img_root, image_names, texto_detectado_ocr, p
                 y_max = max(intervalo_y[k])
                 x_min = min(intervalo_x[k])
                 x_max = max(intervalo_x[k])
-                solapa_y = (y_min <= y <= y_max) or (y_min <= h <= y_max)
-                solapa_x = (x_min <= x <= x_max) or (x_min <= w <= x_max)
+                solapa_y = (y_min-threshold <= y <= y_max+threshold) or (y_min-threshold <= h <= y_max+threshold)
+                solapa_x = (x_min-threshold <= x <= x_max+threshold) or (x_min-threshold <= w <= x_max+threshold)
                 if (solapa_y and solapa_x):
                     if (lista_para_no_recortar_dos_veces_mismo_gui.count(k) == 0):
                         lista_para_no_recortar_dos_veces_mismo_gui.append(k)
