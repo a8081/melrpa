@@ -1,3 +1,4 @@
 env
 melrpa/.env
 melrpa/media
+*.bak
