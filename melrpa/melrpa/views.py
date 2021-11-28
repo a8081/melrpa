@@ -74,7 +74,7 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
     # ejecutar solamente los experimentos
 
 
-def times_duration(times_dict, mode):
+def times_duration(times_dict):
     if times_calculation_mode == "legacy":
         format = "%H:%M:%S.%fS"
         difference = datetime.strptime(
