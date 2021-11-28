@@ -123,7 +123,7 @@ def calculate_accuracy_per_tree(decision_tree_path, levels, quantity_difference)
     return abs(res-1)
 
 
-def experiments_results_collectors(sep, version, times_path, gui_component_class, quantity_difference, decision_tree_filename, experiment_path, drop, orig_param_path, experiment_name):
+def experiments_results_collectors(scenarios, sep, version, times_path, gui_component_class, quantity_difference, decision_tree_filename, experiment_path, drop, orig_param_path, experiment_name):
     # Configuration data
     if not orig_param_path:
         orig_param_path = agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version+sep
@@ -133,7 +133,8 @@ def experiments_results_collectors(sep, version, times_path, gui_component_class
     times_info_path = "media"+sep+times_path+sep
     preprocessed_log_filename = "preprocessed_dataset.csv"
 
-    scenarios = get_only_list_folders(orig_param_path, sep)
+    if not scenarios:
+        scenarios = get_only_list_folders(orig_param_path, sep)
     # print("Scenarios: " + str(scenarios))
 
     family = []
