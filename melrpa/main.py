@@ -8,16 +8,11 @@ from featureextraction.views import check_npy_components_of_capture
 # python Case_study_util.py version1637410905864_80_20 && python Case_study_util.py version1637410907926_70_30 && python Case_study_util.py version1637410968920_60_40
 
 
-def case_study_generator(version_name, sep, path_to_save_experiment,
+def case_study_generator(to_execute, version_name, sep, path_to_save_experiment,
                          decision_activity, gui_component_class,
                          quantity_difference, drop):
     experiment_name = "experiment_" + version_name
     if mode == "generation" or mode == "both":
-        to_execute = ['gui_components_detection'
-                    # ,'classify_image_components',
-                    # 'extract_training_dataset',
-                    # 'decision_tree_training'
-                    ]
         generate_case_study(version_name, sep, path_to_save_experiment,
                             experiment_name, decision_activity, scenarios_subset, to_execute)
 
@@ -42,7 +37,7 @@ def interactive_terminal(gui_component_class, quantity_difference, drop):
                     'Enter path where you want to store experiment results (if nothing typed, it will be stored in "media/"): ')
                 path_to_save_experiment = input_exp_path if input_exp_path != "" else None
 
-            case_study_generator(version_name, sep, path_to_save_experiment,
+            case_study_generator(to_execute, version_name, sep, path_to_save_experiment,
                                     decision_activity, gui_component_class,
                                     quantity_difference, drop)
         else:
@@ -60,9 +55,14 @@ if __name__ == '__main__':
     path_to_save_experiment = None
     drop = None  # ["Advanced_10_Balanced", "Advanced_10_Imbalanced"]
     interactive = False
+    to_execute = ['gui_components_detection'
+                    # ,'classify_image_components',
+                    # 'extract_training_dataset',
+                    # 'decision_tree_training'
+                    ]
 
     if interactive:
-        interactive_terminal(gui_component_class, quantity_difference, drop)
+        interactive_terminal(to_execute, gui_component_class, quantity_difference, drop)
     else:
         version_name = sys.argv[1] if len(
             sys.argv) > 1 else "Intermediate"
@@ -70,6 +70,6 @@ if __name__ == '__main__':
         mode = sys.argv[3] if len(sys.argv) > 3 else "both"
         path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
         
-        case_study_generator(version_name, sep, path_to_save_experiment,
+        case_study_generator(to_execute, version_name, sep, path_to_save_experiment,
                                      decision_activity, gui_component_class,
                                      quantity_difference, drop)
