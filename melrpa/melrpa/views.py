@@ -1,15 +1,13 @@
 import os
 import json
-from datetime import datetime
+import time
 import csv
 import pandas as pd
 import re
 from tqdm import tqdm
 from time import sleep
-from decisiondiscovery.views import decision_tree_training, extract_training_dataset
-from melrpa.settings import sep, agosuirpa_path, scenarios_subset
-from featureextraction.views import gui_components_detection, classify_image_components
-
+from melrpa.settings import agosuirpa_path, times_calculation_mode, metadata_location
+from datetime import datetime
 
 def get_only_list_folders(path, sep):
     folders_and_files = os.listdir(path)
@@ -35,7 +33,7 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
 
     family_names = get_only_list_folders(orig_param_path+sep+scenarios[0], sep)
 
-    metadata_path = "media"+sep+experiment_name+"_metadata"+sep
+    metadata_path = metadata_location+sep+experiment_name+"_metadata"+sep
     if not os.path.exists(metadata_path):
         os.makedirs(metadata_path)
 
@@ -55,11 +53,9 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
                                 'enriched_log.csv', param_path+n+sep),
                                 (param_path+n+sep + 'preprocessed_dataset.csv', param_path+n+sep, 'autogeneration')]
                 for index, function_to_exec in enumerate(to_exec):
-                    start = datetime.now().strftime("%H:%M:%S.%MS")
-                    times[n][index] = {"start": start}
+                    times[n][index] = {"start": time.time()}
                     output = eval(function_to_exec)(*to_exec_args[index])
-                    times[n][index]["finish"] = datetime.now().strftime(
-                        "%H:%M:%S.%MS")
+                    times[n][index]["finish"] = time.time()
                     if index == len(to_exec)-1:
                         times[n][index]["decision_model_accuracy"] = output
 
@@ -76,13 +72,15 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
     # ejecutar solamente los experimentos
 
 
-def times_duration(times_dict):
-    format = '%H:%M:%S.%fS'
-    difference = datetime.strptime(
-        times_dict["finish"], format) - datetime.strptime(times_dict["start"], format)
-    # seconds_in_day = 24 * 60 * 60
-    # res = difference.days * seconds_in_day + difference.seconds
-    return difference.total_seconds()
+def times_duration(times_dict, mode):
+    if times_calculation_mode == "legacy":
+        format = "%H:%M:%S.%fS"
+        difference = datetime.strptime(
+            times_dict["finish"]) - datetime.strptime(times_dict["start"], format)
+        res = difference.total_seconds()
+    else:
+        res = float(times_dict["finish"]) - float(times_dict["start"])
+    return res
 
 
 def calculate_accuracy_per_tree(decision_tree_path, levels, quantity_difference):
@@ -114,14 +112,13 @@ def calculate_accuracy_per_tree(decision_tree_path, levels, quantity_difference)
                         res_aux[index] = quantity
                 if float(res_aux[0])-float(res_aux[1]) > quantity_difference:
                     print("GUI component quantity difference greater than the expected")
+                else:
                     res *= 0
             else:
                 print("GUI component appears more than twice")
-                res *= 0
-        else:
-            print("GUI component " + gui_component_name_to_find + " not found")
-            res *= 0
-    return res
+    if res:
+      print("Condition " + str(levels) + " is not fulfilled")
+    return abs(res-1)
 
 
 def experiments_results_collectors(sep, version, times_path, gui_component_class, quantity_difference, decision_tree_filename, experiment_path, drop, orig_param_path, experiment_name):

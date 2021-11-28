@@ -65,9 +65,9 @@ if __name__ == '__main__':
         interactive_terminal(to_execute, gui_component_class, quantity_difference, drop)
     else:
         version_name = sys.argv[1] if len(
-            sys.argv) > 1 else "Intermediate"
-        decision_activity = sys.argv[2] if len(sys.argv) > 2 else "D"
-        mode = sys.argv[3] if len(sys.argv) > 3 else "both"
+            sys.argv) > 1 else "Basic_11_scenarios_restantes"
+        decision_activity = sys.argv[2] if len(sys.argv) > 2 else "B"
+        mode = sys.argv[3] if len(sys.argv) > 3 else "generation"
         path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
         
         case_study_generator(to_execute, version_name, sep, path_to_save_experiment,
