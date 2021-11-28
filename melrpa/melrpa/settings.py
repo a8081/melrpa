@@ -148,6 +148,6 @@ threshold = 2
 times_calculation_mode = "seconds" # "legacy"
 metadata_location = "media"
 sep = "/"
-agosuirpa_path = "C:" + sep + "Users" + sep + "Antonio" + sep + "Documents" + sep + "TFM" + sep + "agosuirpa" #".."+sep+".."+sep+"agosuirpa"
+# agosuirpa_path = "C:" + sep + "Users" + sep + "Antonio" + sep + "Documents" + sep + "TFM" + sep + "agosuirpa" #".."+sep+".."+sep+"agosuirpa"
 # agosuirpa_path = "C:" + sep + "apa" + sep + "agosuirpa" 
 # agosuirpa_path = "C:" + sep + "Users" + sep + "AdministradorIWT2" + sep + "apa" + sep + "agosuirpa" 

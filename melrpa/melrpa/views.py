@@ -8,6 +8,8 @@ from tqdm import tqdm
 from time import sleep
 from melrpa.settings import agosuirpa_path, times_calculation_mode, metadata_location
 from datetime import datetime
+from decisiondiscovery.views import decision_tree_training, extract_training_dataset
+from featureextraction.views import gui_components_detection, classify_image_components
 
 def get_only_list_folders(path, sep):
     folders_and_files = os.listdir(path)

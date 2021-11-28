@@ -49,24 +49,24 @@ if __name__ == '__main__':
     # ## Expected results ## EXAMPLE: [["Case"],["ImageView", "D"]]
     # It is necessary to specify first the name of the GUI component and next the activity where iit takes place
     # In case of other column, you must specify only its name: for example ["Case"]
-    gui_component_class = [["TextView", "D"]]
+    gui_component_class = [["TextView", "D"], ["ImageView", "D"]]
     quantity_difference = 1
 
     path_to_save_experiment = None
     drop = None  # ["Advanced_10_Balanced", "Advanced_10_Imbalanced"]
     interactive = False
-    to_execute = ['gui_components_detection'
-                    # ,'classify_image_components',
-                    # 'extract_training_dataset',
-                    # 'decision_tree_training'
+    to_execute = ['gui_components_detection',
+                    'classify_image_components',
+                    'extract_training_dataset',
+                    'decision_tree_training'
                     ]
 
     if interactive:
         interactive_terminal(to_execute, gui_component_class, quantity_difference, drop)
     else:
         version_name = sys.argv[1] if len(
-            sys.argv) > 1 else "Basic_11_scenarios_restantes"
-        decision_activity = sys.argv[2] if len(sys.argv) > 2 else "B"
+            sys.argv) > 1 else "Intermediate"
+        decision_activity = sys.argv[2] if len(sys.argv) > 2 else "D"
         mode = sys.argv[3] if len(sys.argv) > 3 else "generation"
         path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
         
