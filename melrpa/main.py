@@ -61,7 +61,7 @@ if __name__ == '__main__':
                     'decision_tree_training'
                     ]
     
-    scenarios = ["scenario_0","scenario_1","scenario_10","scenario_11","scenario_12","scenario_13","scenario_14"]
+    scenarios = ["scenario_0","scenario_1","scenario_10","scenario_11","scenario_12","scenario_13"]
 
     if interactive:
         interactive_terminal(to_execute, gui_component_class, quantity_difference, scenarios, drop)

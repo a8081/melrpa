@@ -128,7 +128,6 @@ def experiments_results_collectors(scenarios, sep, version, times_path, gui_comp
         orig_param_path = agosuirpa_path+sep+"CSV_exit"+sep+"resources"+sep+version+sep
     decision_tree_filename = "decision_tree.log"
 
-    scenarios = []
     times_info_path = "media"+sep+times_path+sep
     preprocessed_log_filename = "preprocessed_dataset.csv"
 
