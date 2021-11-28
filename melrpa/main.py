@@ -13,8 +13,13 @@ def case_study_generator(version_name, sep, path_to_save_experiment,
                          quantity_difference, drop):
     experiment_name = "experiment_" + version_name
     if mode == "generation" or mode == "both":
+        to_execute = ['gui_components_detection'
+                    # ,'classify_image_components',
+                    # 'extract_training_dataset',
+                    # 'decision_tree_training'
+                    ]
         generate_case_study(version_name, sep, path_to_save_experiment,
-                            experiment_name, decision_activity, scenarios_subset)
+                            experiment_name, decision_activity, scenarios_subset, to_execute)
 
     if mode == "results" or mode == "both":
         if path_to_save_experiment and path_to_save_experiment.find(sep) == -1:
@@ -60,7 +65,7 @@ if __name__ == '__main__':
         interactive_terminal(gui_component_class, quantity_difference, drop)
     else:
         version_name = sys.argv[1] if len(
-            sys.argv) > 1 else "Intermediate1638027503388"
+            sys.argv) > 1 else "Intermediate"
         decision_activity = sys.argv[2] if len(sys.argv) > 2 else "D"
         mode = sys.argv[3] if len(sys.argv) > 3 else "both"
         path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None

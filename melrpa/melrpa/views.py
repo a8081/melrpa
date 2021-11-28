@@ -19,7 +19,7 @@ def get_only_list_folders(path, sep):
             family_names.append(f)
     return family_names
 
-def generate_case_study(version, sep, p, experiment_name, decision_activity, scenarios):
+def generate_case_study(version, sep, p, experiment_name, decision_activity, scenarios, to_exec):
     # Parametros que se pasan por consola
     orig_param_path = p if p else agosuirpa_path+sep+"CSV_exit" + \
         sep+"resources"+sep+version  # "..\\..\\case-study\\"
@@ -44,37 +44,33 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
         sleep(.1)
 
         param_path = orig_param_path + sep + scenario + sep
-        for n in family_names:
-            times[n] = {}
+        if to_exec and len(to_exec) > 0:
+            for n in family_names:
+                times[n] = {}
 
-            to_exec = ['gui_components_detection',
-                       'classify_image_components',
-                       'extract_training_dataset',
-                       'decision_tree_training'
-                       ]
-            to_exec_args = [(param_path+n+sep+'log.csv', param_path+n+sep),
-                            ('media'+sep+'models'+sep+'model.json', 'media'+sep+'models'+sep+'model.h5', param_path+n +
-                             sep+'components_npy'+sep, param_path+n+sep + 'log.csv', param_path+n+sep+'enriched_log.csv'),
-                            (decision_activity, param_path + n+sep +
-                             'enriched_log.csv', param_path+n+sep),
-                            (param_path+n+sep + 'preprocessed_dataset.csv', param_path+n+sep, 'autogeneration')]
-            for index, function_to_exec in enumerate(to_exec):
-                start = datetime.now().strftime("%H:%M:%S.%MS")
-                times[n][index] = {"start": start}
-                output = eval(function_to_exec)(*to_exec_args[index])
-                times[n][index]["finish"] = datetime.now().strftime(
-                    "%H:%M:%S.%MS")
-                if index == len(to_exec)-1:
-                    times[n][index]["decision_model_accuracy"] = output
+                to_exec_args = [(param_path+n+sep+'log.csv', param_path+n+sep),
+                                ('media'+sep+'models'+sep+'model.json', 'media'+sep+'models'+sep+'model.h5', param_path+n +
+                                sep+'components_npy'+sep, param_path+n+sep + 'log.csv', param_path+n+sep+'enriched_log.csv'),
+                                (decision_activity, param_path + n+sep +
+                                'enriched_log.csv', param_path+n+sep),
+                                (param_path+n+sep + 'preprocessed_dataset.csv', param_path+n+sep, 'autogeneration')]
+                for index, function_to_exec in enumerate(to_exec):
+                    start = datetime.now().strftime("%H:%M:%S.%MS")
+                    times[n][index] = {"start": start}
+                    output = eval(function_to_exec)(*to_exec_args[index])
+                    times[n][index]["finish"] = datetime.now().strftime(
+                        "%H:%M:%S.%MS")
+                    if index == len(to_exec)-1:
+                        times[n][index]["decision_model_accuracy"] = output
 
-        # if not os.path.exists(scenario+sep):
-        #     os.makedirs(scenario+sep)
+            # if not os.path.exists(scenario+sep):
+            #     os.makedirs(scenario+sep)
 
-        # Serializing json
-        json_object = json.dumps(times, indent=4)
-        # Writing to .json
-        with open(metadata_path+scenario+"-metainfo.json", "w") as outfile:
-            outfile.write(json_object)
+            # Serializing json
+            json_object = json.dumps(times, indent=4)
+            # Writing to .json
+            with open(metadata_path+scenario+"-metainfo.json", "w") as outfile:
+                outfile.write(json_object)
     # cada experimento una linea: csv
     # almaceno los tiempos por cada fase y por cada experimento (por cada familia hay 30)
     # ejecutar solamente los experimentos
