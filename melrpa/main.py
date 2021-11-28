@@ -61,15 +61,15 @@ if __name__ == '__main__':
                     'decision_tree_training'
                     ]
     
-    scenarios = ["scenario_14"]
+    scenarios = ["scenario_0","scenario_1","scenario_10","scenario_11","scenario_12","scenario_13","scenario_14"]
 
     if interactive:
         interactive_terminal(to_execute, gui_component_class, quantity_difference, scenarios, drop)
     else:
         version_name = sys.argv[1] if len(
-            sys.argv) > 1 else "Intermediate"
+            sys.argv) > 1 else "IntermediateDEFINITIVO_0al17"
         decision_activity = sys.argv[2] if len(sys.argv) > 2 else "D"
-        mode = sys.argv[3] if len(sys.argv) > 3 else "generation"
+        mode = sys.argv[3] if len(sys.argv) > 3 else "results"
         path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
         
         case_study_generator(to_execute, scenarios, version_name, sep, path_to_save_experiment,

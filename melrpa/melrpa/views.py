@@ -77,8 +77,7 @@ def generate_case_study(version, sep, p, experiment_name, decision_activity, sce
 def times_duration(times_dict):
     if times_calculation_mode == "legacy":
         format = "%H:%M:%S.%fS"
-        difference = datetime.strptime(
-            times_dict["finish"]) - datetime.strptime(times_dict["start"], format)
+        difference = datetime.strptime(times_dict["finish"], format) - datetime.strptime(times_dict["start"], format)
         res = difference.total_seconds()
     else:
         res = float(times_dict["finish"]) - float(times_dict["start"])
