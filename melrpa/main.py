@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # ## Expected results ## EXAMPLE: [["Case"],["ImageView", "D"]]
     # It is necessary to specify first the name of the GUI component and next the activity where iit takes place
     # In case of other column, you must specify only its name: for example ["Case"]
-    gui_component_class = "(CheckBox_D or ImageView_D or TextView_D) and (ImageView_B or TextView_B)"
+    gui_component_class = "CheckBox_D or ImageView_D or TextView_D" # "(CheckBox_D or ImageView_D or TextView_D) and (ImageView_B or TextView_B)"
     quantity_difference = 1
 
     path_to_save_experiment = None
@@ -61,7 +61,7 @@ if __name__ == '__main__':
                     'decision_tree_training'
                     ]
     
-    scenarios = ["scenario_0","scenario_1","scenario_10","scenario_11","scenario_12","scenario_13"]
+    scenarios = None # ["scenario_0","scenario_1","scenario_10","scenario_11","scenario_12","scenario_13"]
 
     if interactive:
         interactive_terminal(to_execute, gui_component_class, quantity_difference, scenarios, drop)

@@ -136,7 +136,7 @@ def calculate_accuracy_per_tree(decision_tree_path, expression, quantity_differe
     
     if not res:
       print("Condition " + str(expression) + " is not fulfilled")
-    return res
+    return int(res)
 
 
 def experiments_results_collectors(scenarios, sep, version, times_path, gui_component_class, quantity_difference, decision_tree_filename, experiment_path, drop, orig_param_path, experiment_name):
