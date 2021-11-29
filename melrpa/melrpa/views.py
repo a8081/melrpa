@@ -111,9 +111,13 @@ def calculate_accuracy_per_tree(decision_tree_path, expression, quantity_differe
         if position != -1:
             positions = [m.start()
                          for m in re.finditer(gui_component_name_to_find, f)]
-            if len(positions) == 2:
+            number_of_nodes = int(len(positions)/2)
+            if len(positions) != 2:
+                print("GUI component appears more than twice")
+            for n_nod in range(0, number_of_nodes):
                 res_partial = {}
                 for index, position_i in enumerate(positions):
+                    position_i += 2*n_nod
                     position_aux = position_i + len(gui_component_name_to_find)
                     s = f[position_aux:]
                     end_position = s.find("\n")
@@ -125,8 +129,7 @@ def calculate_accuracy_per_tree(decision_tree_path, expression, quantity_differe
                     print("GUI component quantity difference greater than the expected")
                 else:
                     res[gui_component_name_to_find] = "True"
-            else:
-                print("GUI component appears more than twice")
+
     s = expression
     print(res)
     for gui_component_name_to_find in levels:
