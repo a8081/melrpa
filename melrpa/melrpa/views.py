@@ -84,25 +84,35 @@ def times_duration(times_dict):
     return res
 
 
-def calculate_accuracy_per_tree(decision_tree_path, levels, quantity_difference):
+def calculate_accuracy_per_tree(decision_tree_path, expression, quantity_difference):
     f = open(decision_tree_path, "r").read()
-    res = 1
+    res = {}
+    
+    # This code is useful if we want to get the expresion like: [["TextView", "B"],["ImageView", "B"]]
+    # if not isinstance(levels, list):
+    #     levels = [levels]
+    levels = expression.replace("(", "")
+    levels = levels.replace(")", "")
+    levels = levels.split(" ")
+    for op in ["and","or"]:
+      while op in levels:
+        levels.remove(op)
 
-    if not isinstance(levels, list):
-        levels = [levels]
-
-    for gui_component_class in levels:
-        if len(gui_component_class) == 1:
-            gui_component_name_to_find = gui_component_class[0]
-        else:
-            gui_component_name_to_find = gui_component_class[0] + \
-                "_"+gui_component_class[1]
+    for gui_component_name_to_find in levels:
+    # This code is useful if we want to get the expresion like: [["TextView", "B"],["ImageView", "B"]]
+    # for gui_component_class in levels:
+        # if len(gui_component_class) == 1:
+        #     gui_component_name_to_find = gui_component_class[0]
+        # else:
+        #     gui_component_name_to_find = gui_component_class[0] + \
+        #         "_"+gui_component_class[1]
         position = f.find(gui_component_name_to_find)
+        res[gui_component_name_to_find] = "False"
         if position != -1:
             positions = [m.start()
                          for m in re.finditer(gui_component_name_to_find, f)]
             if len(positions) == 2:
-                res_aux = {}
+                res_partial = {}
                 for index, position_i in enumerate(positions):
                     position_aux = position_i + len(gui_component_name_to_find)
                     s = f[position_aux:]
@@ -110,16 +120,23 @@ def calculate_accuracy_per_tree(decision_tree_path, levels, quantity_difference)
                     quantity = f[position_aux:position_aux+end_position]
                     for c in '<>= ':
                         quantity = quantity.replace(c, '')
-                        res_aux[index] = quantity
-                if float(res_aux[0])-float(res_aux[1]) > quantity_difference:
+                        res_partial[index] = quantity
+                if float(res_partial[0])-float(res_partial[1]) > quantity_difference:
                     print("GUI component quantity difference greater than the expected")
                 else:
-                    res *= 0
+                    res[gui_component_name_to_find] = "True"
             else:
                 print("GUI component appears more than twice")
-    if res:
-      print("Condition " + str(levels) + " is not fulfilled")
-    return abs(res-1)
+    s = expression
+    print(res)
+    for gui_component_name_to_find in levels:
+        s = s.replace(gui_component_name_to_find, res[gui_component_name_to_find])
+    
+    res = eval(s)
+    
+    if not res:
+      print("Condition " + str(expression) + " is not fulfilled")
+    return res
 
 
 def experiments_results_collectors(scenarios, sep, version, times_path, gui_component_class, quantity_difference, decision_tree_filename, experiment_path, drop, orig_param_path, experiment_name):

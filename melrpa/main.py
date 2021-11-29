@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # ## Expected results ## EXAMPLE: [["Case"],["ImageView", "D"]]
     # It is necessary to specify first the name of the GUI component and next the activity where iit takes place
     # In case of other column, you must specify only its name: for example ["Case"]
-    gui_component_class = [["TextView", "D"], ["ImageView", "D"]]
+    gui_component_class = "(CheckBox_D or ImageView_D or TextView_D) and (ImageView_B or TextView_B)"
     quantity_difference = 1
 
     path_to_save_experiment = None
@@ -67,7 +67,7 @@ if __name__ == '__main__':
         interactive_terminal(to_execute, gui_component_class, quantity_difference, scenarios, drop)
     else:
         version_name = sys.argv[1] if len(
-            sys.argv) > 1 else "IntermediateDEFINITIVO_0al17"
+            sys.argv) > 1 else "Advanced_0_9"
         decision_activity = sys.argv[2] if len(sys.argv) > 2 else "D"
         mode = sys.argv[3] if len(sys.argv) > 3 else "results"
         path_to_save_experiment = sys.argv[4] if len(sys.argv) > 4 else None
