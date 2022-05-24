@@ -7,19 +7,46 @@ Microsoft Visual C++ 14.0
 Graphviz (it can be downloaded from https://www.graphviz.org/download/)
 
 
-### Download dataset ReDraw from Zenodo
-´´´
-wget https://zenodo.org/record/2530277/files/CNN-Data-Final.tar.gz -O CNNdata.tgz
-tar -xzf CNNdata.tgz
-´´´
+## Before run
+You need to have [Python](https://www.python.org/downloads/) installed.
 
-Para que las capturas asociadas al log se procesen correctamente deben seguir el esquema de "image0001" para estar ordenadas alfabéticamente, ya que el clasificador de componentes generará una fila por cada una de las imágenes que se extraigan, procesándolas por orden alfabético y posteriormente la información asociada a esa imagen se añadirá como columnas adicionales a la fila correspondiente a su orden en el log. Si falta una imagen, por ejemplo la "image0005" habrá un descuadre en la información que se almacene a partir de la fila 5.
+If desired, you can create an isolated installation of the project requirements by creating a [virtual environment](https://docs.python.org/3/library/venv.html#:~:text=A%20virtual%20environment%20is%20a,part%20of%20your%20operating%20system.).
 
-En el caso en el que se utilice la opción de entrenar el modelo:
-Originalmente las etiquetas de las imágenes de los componentes GUI destinadas al entrenamiento de la CNN para su clasificación se encuentran contenida en el nombre de las propias imágenes de la siguiente manera:
+## Project initialization
 
-Ejemplo: ._42-android.widget.TextView.png
+In the project directory, open a terminal and run:
 
-Siendo la etiqueta la última palabra entre el penúltimo punto y el último punto. De esta manera lo interpretará el sistema para el entrenamiento de CNN.
+**`python manage.py makemigrations`**
 
-La columna que indique los casos debe de llamarse "Case", la que indique la actividad "Activity" y la que indique la variante "Variant". Con el objetivo de que se lleve a cabo un correcto preprocesamiento de los logs antes de entrenar el modelo de decisión.
+To create a DB model.
+
+**`python manage.py migrate`**
+
+To create the tables in the DB based on project models.
+
+**`python manage.py loaddata configuration/db_populate.json`**
+
+To insert initial data in DB.
+
+**`python manage.py runserver`**
+
+Runs the app in the debug mode. If you want to init in deploy mode, change in the *agosuirpa/settings.py* file, the *DEBUG* mode attribute to False.
+
+## Screenshots storage
+
+To process correctly screenshots associated to the log, they must follow the "image0001" scheme to be sorted alphabetically, since the component classifier will generate a row for each of the images extracted, processing them in alphabetical order and then the information associated to that image will be added as additional columns to the row corresponding to its order in the log. If an image is missing, for example "image0005", there will be an incoherence in the information stored from row 5 onwards.
+
+## Custom training of GUI components classifier
+
+In the case where the option to train the model is used:
+Originally the labels of the GUI component images intended for training the CNN for classification are contained in the name of the images themselves as follows:
+
+Example: ._42-android.widget.TextView.png
+
+The label being the last word between the penultimate dot and the last dot. This is how the system will interpret it for CNN training.
+
+The column indicating the cases must be called "Case", the column indicating the activity "Activity" and the column indicating the variant "Variant". In order to carry out a correct preprocessing of the logs before training the decision model.
+
+## Learn More
+
+You can learn more about the deploy of the application in the [Django documentation](https://docs.djangoproject.com/en/4.0/).
