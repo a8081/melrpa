@@ -22,10 +22,6 @@ To create a DB model.
 
 **`python manage.py migrate`**
 
-To create the tables in the DB based on project models.
-
-**`python manage.py loaddata configuration/db_populate.json`**
-
 To insert initial data in DB.
 
 **`python manage.py runserver`**
